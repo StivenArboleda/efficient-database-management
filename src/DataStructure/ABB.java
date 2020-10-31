@@ -74,7 +74,7 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 
 	public void deleteFromKey(K key) {
 
-		root = delete(key, root);
+		delete(key, root);
 	}
 
 	@Override
