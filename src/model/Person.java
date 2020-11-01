@@ -1,17 +1,18 @@
 package model;
 
-import java.util.Calendar;
-
 
 public class Person {
+	
+	public final static int FEMALE = 0;
+	public final static int MALE = 1;
 	
 	private String cod;
 	private String name;
 	private String lastName;
-	private String gender;
-	private String bornDate;
+	private int gender;
+	private Date bornDate;
 	private double height;
-	private String nationality;
+	private Nationality nationality;
 	private String photo;
 	
 	/**
@@ -24,8 +25,8 @@ public class Person {
 	 * @param nationality
 	 * @param photo
 	 */
-	public Person(String cod, String name, String lastName, String gender, String bornDate, double height,
-			String nationality, String photo) {
+	public Person(String cod, String name, String lastName, int gender, Date bornDate, double height,
+			Nationality nationality, String photo) {
 		super();
 		this.cod = cod;
 		this.name = name;
@@ -82,28 +83,28 @@ public class Person {
 	/**
 	 * @return the gender
 	 */
-	public String getGender() {
+	public int getGender() {
 		return gender;
 	}
 
 	/**
 	 * @param gender the gender to set
 	 */
-	public void setGender(String gender) {
+	public void setGender(int gender) {
 		this.gender = gender;
 	}
 
 	/**
 	 * @return the bornDate
 	 */
-	public String getBornDate() {
+	public Date getBornDate() {
 		return bornDate;
 	}
 
 	/**
 	 * @param bornDate the bornDate to set
 	 */
-	public void setBornDate(String bornDate) {
+	public void setBornDate(Date bornDate) {
 		this.bornDate = bornDate;
 	}
 
@@ -124,15 +125,19 @@ public class Person {
 	/**
 	 * @return the nationality
 	 */
-	public String getNationality() {
+	public Nationality getNationality() {
 		return nationality;
 	}
 
 	/**
 	 * @param nationality the nationality to set
 	 */
-	public void setNationality(String nationality) {
+	public void setNationality(Nationality nationality) {
 		this.nationality = nationality;
+	}
+	
+	public String getCountry() {
+		return nationality.getCountry();
 	}
 
 	/**
