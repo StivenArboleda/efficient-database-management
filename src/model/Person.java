@@ -12,7 +12,7 @@ public class Person {
 	private int gender;
 	private Date bornDate;
 	private double height;
-	private Nationality nationality;
+	private String nationality;
 	private String photo;
 	
 	/**
@@ -26,7 +26,7 @@ public class Person {
 	 * @param photo
 	 */
 	public Person(String cod, String name, String lastName, int gender, Date bornDate, double height,
-			Nationality nationality, String photo) {
+			String nationality, String photo) {
 		super();
 		this.cod = cod;
 		this.name = name;
@@ -125,20 +125,17 @@ public class Person {
 	/**
 	 * @return the nationality
 	 */
-	public Nationality getNationality() {
+	public String getNationality() {
 		return nationality;
 	}
 
 	/**
 	 * @param nationality the nationality to set
 	 */
-	public void setNationality(Nationality nationality) {
+	public void setNationality(String nationality) {
 		this.nationality = nationality;
 	}
-	
-	public String getCountry() {
-		return nationality.getCountry();
-	}
+
 
 	/**
 	 * @return the photo

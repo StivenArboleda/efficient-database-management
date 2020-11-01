@@ -9,26 +9,46 @@ public class Controller {
 	private AVL<String, Person> lastNames;
 	private AVL<String, Person> completeNames;
 	private AVL<String, Person> cod;
+	private String[] countries;
+	private double[] percentage;
+	private String[] aNames;
+	private String[] aLastNames;
 
-	public Controller() {
+	public Controller(String[] c, double[] p, String[] an, String[] al) {
 		actualCod = 1;
+		countries = c;
+		percentage = p;
+		aNames = an;
+		aLastNames = al;
 	}
 	
 	public String generateCod() {
 		return "A00" + actualCod++;
 	}
 	
-	public void addPerson(String name, String lastName, String photo) {
+	public void addPerson(String photo) {
 		String cod = generateCod();
 		Date date = generateDate();
 		int gender = generateGender();
 		double height = generateHeight();
-		Nationality nationality = generateNationality();
+		String nationality = generateNationality();
+		String[] completeName = generateName();
+		String name = completeName[0];
+		String lastName = completeName[1];
 		Person p = new Person(cod, name, lastName, gender, date, height, nationality, photo);
 		names.insert(name, p);
 		lastNames.insert(lastName, p);
 		completeNames.insert(name + " " + lastName, p);
 		this.cod.insert(cod, p);
+	}
+	
+	public String[] generateName() {
+		String[] name = new String[2];
+		int na = (int) Math.random() * 6780;
+		int la = (int) Math.random() * 163253;
+		name[0] = aNames[na];
+		name[1] = aLastNames[la];
+		return name;
 	}
 
 	private double generateHeight() {
@@ -38,8 +58,8 @@ public class Controller {
 	public Date generateDate() {
 		double percentage = Math.random();
 		int year;
-		int month = (int) Math.random() * (12 - 1) + 1;
-		int day = (int) Math.random() * (30 - 1) + 1;
+		int month =(int) Math.random() * (12 - 1) + 1;
+		int day  = (int) Math.random() * (30 - 1) + 1;
 		if (percentage < 0.1862) {
 			year = (int) Math.random() * (2020 - 2006) + 2006;
 		} else if (percentage < 0.1312 + 0.1862) {
@@ -66,111 +86,17 @@ public class Controller {
 		return gen;
 	}
 	
-	private Nationality generateNationality() {
-		Nationality c = Nationality.MON;
-		double a = Math.random();
-		if (a < 0.3264469) {
-			c = Nationality.USA;
-		} else if (a < 0.5361253) {
-			c = Nationality.BR;
-		} else if (a < 0.6633834) {
-			c = Nationality.MX;
-		} else if (a < 0.7136067) {
-			c = Nationality.COL;
-		} else if (a < 0.7582055) {
-			c = Nationality.ARG;
-		} else if (a < 0.7954466) {
-			c = Nationality.CAN;
-		} else if (a < 0.8280087) {
-			c = Nationality.PER;
-		} else if (a < 0.8560104) {
-			c = Nationality.VEN;
-		} else if (a < 0.8748722) {
-			c = Nationality.CHL;
-		} else if (a < 0.8922996) {
-			c = Nationality.ECU;
-		} else if (a < 0.9038270) {
-			c = Nationality.BOL;
-		} else if (a < 0.9150845) {
-			c = Nationality.HAI;
-		} else if (a < 0.9262426) {
-			c = Nationality.CUB;
-		} else if (a < 0.9369488) {
-			c = Nationality.DRP;
-		} else if (a < 0.9467334) {
-			c = Nationality.HON;
-		} else if (a < 0.9555764) {
-			c = Nationality.PNG;
-		} else if (a < 0.9626184) {
-			c = Nationality.PAR;
-		} else if (a < 0.9691584) {
-			c = Nationality.NIC;
-		} else if (a < 0.9755544) {
-			c = Nationality.SAL;
-		} else if (a < 0.9805812) {
-			c = Nationality.CRC;
-		} else if (a < 0.9848436) {
-			c = Nationality.PAN;
-		} else if (a < 0.9882681) {
-			c = Nationality.URU;
-		} else if (a < 0.9911878) {
-			c = Nationality.JAM;
-		} else if (a < 0.9939926) {
-			c = Nationality.PRC;
-		} else if (a < 0.9953722) {
-			c = Nationality.TAT;
-		} else if (a < 0.9961478) {
-			c = Nationality.GUY;
-		} else if (a < 0.9967266) {
-			c = Nationality.SUR;
-		} else if (a < 0.9971209) {
-			c = Nationality.GUA;
-		} else if (a < 0.9975138) {
-			c = Nationality.BEL;
-		} else if (a < 0.9979019) {
-			c = Nationality.BAH;
-		} else if (a < 0.9982716) {
-			c = Nationality.MAR;
-		} else if (a < 0.9985548) {
-			c = Nationality.BAR;
-		} else if (a < 0.9987358) {
-			c = Nationality.SAL;
-		} else if (a < 0.9989023) {
-			c = Nationality.GUM;
-		} else if (a < 0.9990641) {
-			c = Nationality.CUR;
-		} else if (a < 0.9991751) {
-			c = Nationality.GRE;
-		} else if (a < 0.9992844) {
-			c = Nationality.VIN;
-		} else if (a < 0.9993873) {
-			c = Nationality.UVI;
-		} else if (a < 0.9994839) {
-			c = Nationality.ANB;
-		} else if (a < 0.9995549) {
-			c = Nationality.DOM;
-		} else if (a < 0.9996198) {
-			c = Nationality.CAY;
-		} else if (a < 0.9996811) {
-			c = Nationality.BER;
-		} else if (a < 0.9997378) {
-			c = Nationality.NOR;
-		} else if (a < 0.9997938) {
-			c = Nationality.GRL;
-		} else if (a < 0.9998481) {
-			c = Nationality.SAM;
-		} else if (a < 0.9998864) {
-			c = Nationality.CAI;
-		} else if (a < 0.9999246) {
-			c = Nationality.SAM;
-		} else if (a < 0.9999544) {
-			c = Nationality.BVI;
-		} else if (a < 0.9999803) {
-			c = Nationality.CNE;
-		} else if (a < 0.9999951) {
-			c = Nationality.ANG;
+	private String generateNationality() {
+		String country = "United States";
+		double aleatory = Math.random();
+		for (int i = 0; i < countries.length; i++) {
+			if (aleatory <= percentage[i]) {
+				country = countries[i];
+			}
 		}
-		return c;
+		return country;
 	}
+	
+	
 	
 }
