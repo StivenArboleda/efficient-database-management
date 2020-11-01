@@ -4,9 +4,9 @@ public class Node<K extends Comparable<K>, E> {
     
     private E type;
     private K key;
-    public  Node<K, E> left;
-    public  Node<K, E> right;
-    public  Node<K, E> parent;
+    private  Node<K, E> left;
+    private  Node<K, E> right;
+    private  Node<K, E> parent;
     private int balance;
 
     public Node(K key, E type) {

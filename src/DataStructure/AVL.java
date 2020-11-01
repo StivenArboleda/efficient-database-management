@@ -6,9 +6,14 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 
 //------------------------------------------------
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -537623718932409550L;
+
 	private void balance(K key) {
 
-		Node<K, E> n = searchA(key);
+		Node<K, E> n = super.search(key);
 		boolean isBalanced = false;
 
 		Node<K, E> n1 = n.getParent();
@@ -56,15 +61,10 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	}
 
 	@Override
-	public boolean insert(K key, E element) {
-
+	public void insert(K key, E element) {
 		Node<K, E> n = new Node<>(key, element);
-		boolean added = super.add(n);
-		if (added) {
-
-			balance(key);
-		}
-		return added;
+		super.insert(n);
+		balance(key);	
 	}
 
 	@Override
@@ -73,10 +73,10 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 		super.update(key, element, newKey);
 	}
 
-	public int getBalance(Node<K, E> N) {
-		if (N == null)
+	public int getBalance(Node<K, E> n) {
+		if (n == null)
 			return 0;
-		return height(N.left) - height(N.right);
+		return height(n.getLeft()) - height(n.getRight());
 	}
 
 	@Override
@@ -87,22 +87,22 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 
 		}
 		if (key.compareTo(root.getKey()) < 0) {
-			root.left = deleteAVL(root.left, key);
+			root.setLeft(deleteAVL(root.getLeft(), key));
 
 		} else if (key.compareTo(root.getKey()) > 0) {
-			root.right = deleteAVL(root.right, key);
+			root.setRight(deleteAVL(root.getRight(), key));
 
 		} else {
 
-			if ((root.left == null) || (root.right == null)) {
+			if ((root.getLeft() == null) || (root.getRight() == null)) {
 
 				Node<K, E> temp = null;
 
-				if (temp == root.left) {
-					temp = root.right;
+				if (temp == root.getLeft()) {
+					temp = root.getRight();
 
 				} else {
-					temp = root.left;
+					temp = root.getLeft();
 				}
 
 				if (temp == null) {
@@ -114,11 +114,11 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 				}
 			} else {
 
-				Node<K, E> temp = minValueAVL(root.right);
+				Node<K, E> temp = minValueAVL(root.getRight());
 
 				root.setKey(temp.getKey());
 
-				root.right = deleteAVL(root.right, temp.getKey());
+				root.setRight(deleteAVL(root.getRight(), temp.getKey()));
 			}
 		}
 
@@ -126,26 +126,26 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 			return root;
 		}
 
-		root.setBalance(max(height(root.left), height(root.right)) + 1);
+		root.setBalance(max(height(root.getLeft()), height(root.getRight())) + 1);
 
 		int balance = getBalance(root);
 
-		if (balance > 1 && getBalance(root.left) >= 0) {
+		if (balance > 1 && getBalance(root.getLeft()) >= 0) {
 			return rightRotate(root);
 
 		}
-		if (balance > 1 && getBalance(root.left) < 0) { // izquierda derecha
-			root.left = leftRotate(root.left);
+		if (balance > 1 && getBalance(root.getLeft()) < 0) { // izquierda derecha
+			root.setLeft(leftRotate(root.getLeft()));
 			return rightRotate(root);
 
 		}
-		if (balance < -1 && getBalance(root.right) <= 0) { // derecha derecha
+		if (balance < -1 && getBalance(root.getRight()) <= 0) { // derecha derecha
 			return leftRotate(root);
 
 		}
-		if (balance < -1 && getBalance(root.right) > 0) { // derecha izquierda
+		if (balance < -1 && getBalance(root.getRight()) > 0) { // derecha izquierda
 
-			root.right = rightRotate(root.right);
+			root.setRight(rightRotate(root.getRight()));
 			return leftRotate(root);
 		}
 
@@ -159,8 +159,8 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 
 		Node<K, E> current = node;
 
-		while (current.left != null)
-			current = current.left;
+		while (current.getLeft() != null)
+			current = current.getLeft();
 
 		return current;
 	}
@@ -169,7 +169,7 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 
 
 	@Override
-	public E search(K key) {
+	public Node<K, E> search(K key) {
 
 		return super.search(key);
 	}
@@ -221,7 +221,7 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	
 	public void rotateRight(K key) {
 
-		Node<K, E> n = super.searchA(key);
+		Node<K, E> n = super.search(key);
 		rotateRight(n);
 	}
 	
@@ -250,14 +250,14 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	}
 	
 	private Node<K, E> rightRotate(Node<K, E> y) {
-		Node<K, E> x = y.left;
-		Node<K, E> T2 = x.right;
+		Node<K, E> x = y.getLeft();
+		Node<K, E> t2 = x.getRight();
 
-		x.right = y;
-		y.left = T2;
+		x.setRight(y);
+		y.setLeft(t2);
 
-		y.setBalance(max(height(y.left), height(y.right)) + 1);
-		x.setBalance(max(height(x.left), height(x.right)) + 1);
+		y.setBalance(max(height(y.getLeft()), height(y.getRight())) + 1);
+		x.setBalance(max(height(x.getLeft()), height(x.getRight())) + 1);
 
 		return x;
 	}
@@ -265,7 +265,7 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	@Override
 	public void rotateLeft(K key) {
 
-		Node<K, E> n = searchA(key);
+		Node<K, E> n = search(key);
 		rotateLeft(n);
 	}
 
@@ -294,14 +294,14 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	}
 	
 	private Node<K, E> leftRotate(Node<K, E> x) {
-		Node<K, E> y = x.right;
-		Node<K, E> T2 = y.left;
+		Node<K, E> y = x.getRight();
+		Node<K, E> t2 = y.getLeft();
 
-		y.left = x;
-		x.right = T2;
+		y.setLeft(x);
+		x.setRight(t2);
 
-		x.setBalance(max(height(x.left), height(x.right)) + 1);
-		y.setBalance(max(height(y.left), height(y.right)) + 1);
+		x.setBalance(max(height(x.getLeft()), height(x.getRight())) + 1);
+		y.setBalance(max(height(y.getLeft()), height(y.getRight())) + 1);
 
 		return y;
 	}

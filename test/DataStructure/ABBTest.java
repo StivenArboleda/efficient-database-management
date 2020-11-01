@@ -23,5 +23,75 @@ class ABBTest {
 		abb.insert(3, 7);
 		abb.insert(4, 8);
 	}
+	
+	@Test
+	void testInsert0() {
+		setupStage0();
+		int key = 75343;
+		int element = 63436;
+		abb.insert(key, element);
+		assertEquals(abb.getRoot().getType(), element, "The tree is not inserting in the correct way");
+		assertEquals(abb.search(key).getType(), element, "The tree is not inserting in the correct way");
+	}
+	
+	@Test
+	void testInsert1() {
+		setupStage1();
+		int key = 75343;
+		int element = 63436;
+		abb.insert(key, element);
+		assertEquals(abb.search(key).getType(), element, "The tree is not inserting in the correct way");
+	}
+	
+	@Test
+	void testInsert2() {
+		setupStage2();
+		int key = 75343;
+		int element = 63436;
+		abb.insert(key, element);
+		assertEquals(abb.search(key).getType(), element, "The tree is not inserting in the correct way");
+	}
+	
+	@Test
+	void testDelete0() {
+		setupStage0();
+		int testValue = 2957;
+		abb.delete(testValue);
+		assertEquals(abb.search(testValue), null, "The tree is not deleting, it should'nt have nodes");
+	}
+	
+	@Test
+	void testDelete1() {
+		setupStage1();
+		int testValue = 1;
+		abb.delete(testValue);
+		assertEquals(abb.search(testValue), null, "The tree is not deleting, it should'nt have nodes");
+	}
+	
+	@Test
+	void testDelete2() {
+		setupStage2();
+		int testValue = 3;
+		abb.delete(testValue);
+		assertEquals(abb.search(testValue), null, "The tree is not deleting, it should'nt have nodes");
+	}
+	
+	@Test
+	void testSearch0() {
+		setupStage0();
+		assertEquals(abb.search(42), null, "The tree is not searching as well");
+	}
+	
+	@Test
+	void testSearch1() {
+		setupStage2();
+		assertEquals(abb.search(1).getType(), 5, "The tree is not searching as well");
+	}
+	
+	@Test
+	void testSearch2() {
+		setupStage2();
+		assertEquals(abb.search(3).getType(), 7, "The tree is not searching as well");
+	}
 
 }
