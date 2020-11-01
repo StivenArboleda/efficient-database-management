@@ -1,4 +1,4 @@
-package DataStructure;
+package dataStructure;
 
 public interface IABB<K extends Comparable<K>, E> {
   

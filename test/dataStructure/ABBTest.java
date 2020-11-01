@@ -1,8 +1,10 @@
-package DataStructure;
+package dataStructure;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
+import dataStructure.ABB;
 
 class ABBTest {
 

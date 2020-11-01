@@ -1,4 +1,4 @@
-package DataStructure;
+package dataStructure;
 
 public class Node<K extends Comparable<K>, E> {
     
@@ -7,21 +7,21 @@ public class Node<K extends Comparable<K>, E> {
     private  Node<K, E> left;
     private  Node<K, E> right;
     private  Node<K, E> parent;
-    private int balance;
+    private int fb;
 
     public Node(K key, E type) {
         this.type = type;
         this.key = key;
-        balance = 0;
+        fb = 0;
 
     }
 
-    public int getBalance() {
-        return balance;
+    public int getFb() {
+        return fb;
     }
 
-    public void setBalance(int balance) {
-        this.balance = balance;
+    public void setFb(int fb) {
+        this.fb = fb;
     }
 
 
@@ -65,4 +65,14 @@ public class Node<K extends Comparable<K>, E> {
     public void setRight(Node<K, E> right) {
         this.right = right;
     }
+
+	public void decreaseFb() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void incrementFb() {
+		// TODO Auto-generated method stub
+		
+	}
 }
