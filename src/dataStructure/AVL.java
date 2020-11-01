@@ -12,7 +12,6 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	private static final long serialVersionUID = -4872681473858411867L;
 
 
-
 	public AVL() {
 		super();
 	}
@@ -156,9 +155,6 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 		}
 	}
 
-	
-	
-	
 	public void deleted(K key) {
 		Node<K, E> x = super.search(key);
 		Node<K, E> f = x.getParent();
@@ -170,6 +166,58 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 		x.setFb(0);
 		recalculate(f, left);
 		rebalance(x);
+	}
+	
+//--------------------------------------------------------
+//--------------------------------------------------------
+//--------------------------------------------------------
+
+	public void rightCases(Node<K,E> nodeR) {
+		int balanceF = balanceFactor(nodeR);
+		if(balanceF == 1 || balanceF == 0) {
+			leftRotate(nodeR.getParent());
+		}else {
+			Node<K, E> parent = nodeR.getParent();
+			rightRotate(nodeR.getParent());
+			leftRotate(parent);
+		}
+	}
+	
+	public void leftCases(Node<K, E> nodeL) {
+		int balanceF = balanceFactor(nodeL);
+		
+		if(balanceF == -1 || balanceF == 0) {
+			leftRotate(nodeL.getParent());
+		}else {
+			Node<K, E> parent = nodeL.getParent();
+			leftRotate(nodeL);
+			rightRotate(parent);
+		}
+	}
+	
+	public int balanceFactor (Node<K,E> node) {
+		if(node!=null) {
+			//int right = super.height(node.getRight()); la varaible right debe tener la altura desde ese nodo
+			//int left = super.height(node.getLeft()); la variable left debe tener la altura por la izquierda desde ese nodo
+			//return right - left;
+		}
+		return 0;
+	}
+	
+	public void balance(Node<K,E> node) {
+		if(node!=null) {
+			
+			int balanceFactor = balanceFactor(node);
+			Node<K,E> parent = node.getParent();
+			if(balanceFactor>1) {
+				rightCases(node.getRight());
+				
+			}else if(balanceFactor<-1) {
+				leftCases(node.getLeft());
+				
+			}
+			balance(parent);
+		}
 	}
 
 	

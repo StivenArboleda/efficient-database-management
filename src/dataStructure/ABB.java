@@ -12,6 +12,7 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 	 */
 	private static final long serialVersionUID = -3253538206332644643L;
 	private Node<K, E> root;
+	protected int height;
 
 	public ABB() {
 		this.root = null;
