@@ -32,8 +32,8 @@ class ABBTest {
 		int key = 75343;
 		int element = 63436;
 		abb.insert(key, element);
-		assertEquals(abb.getRoot().getType(), element, "The tree is not inserting in the correct way");
-		assertEquals(abb.search(key).getType(), element, "The tree is not inserting in the correct way");
+		assertEquals(abb.getRoot().getElement(), element, "The tree is not inserting in the correct way");
+		assertEquals(abb.search(key).getElement(), element, "The tree is not inserting in the correct way");
 	}
 	
 	@Test
@@ -42,7 +42,7 @@ class ABBTest {
 		int key = 75343;
 		int element = 63436;
 		abb.insert(key, element);
-		assertEquals(abb.search(key).getType(), element, "The tree is not inserting in the correct way");
+		assertEquals(abb.search(key).getElement(), element, "The tree is not inserting in the correct way");
 	}
 	
 	@Test
@@ -51,7 +51,7 @@ class ABBTest {
 		int key = 75343;
 		int element = 63436;
 		abb.insert(key, element);
-		assertEquals(abb.search(key).getType(), element, "The tree is not inserting in the correct way");
+		assertEquals(abb.search(key).getElement(), element, "The tree is not inserting in the correct way");
 	}
 	
 	@Test
@@ -87,13 +87,13 @@ class ABBTest {
 	@Test
 	void testSearch1() {
 		setupStage2();
-		assertEquals(abb.search(1).getType(), 5, "The tree is not searching as well");
+		assertEquals(abb.search(1).getElement(), 5, "The tree is not searching as well");
 	}
 	
 	@Test
 	void testSearch2() {
 		setupStage2();
-		assertEquals(abb.search(3).getType(), 7, "The tree is not searching as well");
+		assertEquals(abb.search(3).getElement(), 7, "The tree is not searching as well");
 	}
 
 }

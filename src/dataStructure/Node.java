@@ -2,15 +2,17 @@ package dataStructure;
 
 public class Node<K extends Comparable<K>, E> {
     
-    private E type;
+    private E element;
     private K key;
     private  Node<K, E> left;
     private  Node<K, E> right;
     private  Node<K, E> parent;
     private int fb;
+    private int height;
+    
 
-    public Node(K key, E type) {
-        this.type = type;
+    public Node(K key, E element) {
+        this.element = element;
         this.key = key;
         fb = 0;
 
@@ -24,6 +26,7 @@ public class Node<K extends Comparable<K>, E> {
         this.fb = fb;
     }
 
+    
 
     public Node<K, E> getParent() {
         return parent;
@@ -34,12 +37,12 @@ public class Node<K extends Comparable<K>, E> {
     }
     
     
-    public E getType() {
-        return type;
+    public E getElement() {
+        return element;
     }
 
-    public void setType(E type) {
-        this.type = type;
+    public void setElement(E type) {
+        this.element = type;
     }
 
     public K getKey() {
@@ -75,4 +78,20 @@ public class Node<K extends Comparable<K>, E> {
 		// TODO Auto-generated method stub
 		
 	}
+
+	/**
+	 * @return the height
+	 */
+	public int getHeight() {
+		return height;
+	}
+
+	/**
+	 * @param height the height to set
+	 */
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	
 }

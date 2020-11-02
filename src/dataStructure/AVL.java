@@ -15,44 +15,98 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	public AVL() {
 		super();
 	}
+	//---------------------------------- NUEVO INTENTO ------------------------------------------
+	public int returnHeight(Node<K, E> node) {
+        int height = 0;
+        height = returnHeight(node, 1, height);
+        node.setHeight(height);
+        return height;
+    }
+
+    private int returnHeight(Node<K, E> node, int nivel, int height) {
+        if (node != null) {
+            height = returnHeight(node.getLeft(), nivel + 1, height);
+            if (nivel > height) {
+                height = nivel;
+            }
+            height = returnHeight(node.getRight(), nivel + 1, height);
+        }
+        return height;
+    }
 
 	@Override
-	public void leftRotate(Node<K, E> toRotate) {//pregunta caso A y B y casos D y E se ejecutan igual solo rotate correspondiente?
+	public void leftRotate(Node<K, E> toRotate) {
 		Node<K, E> right = toRotate.getRight();
-		right.setParent(toRotate.getParent());
-		if (toRotate.getParent() != null) {
-			if (toRotate == toRotate.getParent().getRight()) {
-				toRotate.getParent().setRight(right);
-			} else {
-				toRotate.getParent().setLeft(right);
+		if (toRotate != null) {
+			if (right != null) {
+				right.setParent(toRotate.getParent());
+				if (toRotate.getParent() != null) {
+					if (toRotate == toRotate.getParent().getRight()) {
+						toRotate.getParent().setRight(right);
+					} else {
+						toRotate.getParent().setLeft(right);
+					}
+				} else {
+					super.setRoot(right);
+				}
+				if (right.getLeft() != null) {
+					toRotate.setParent(right.getLeft());
+					right.getLeft().setParent(toRotate);
+				}
+				right.setLeft(toRotate);
+				toRotate.setParent(right);
 			}
-		} else {
-			super.setRoot(right);
 		}
-		toRotate.setRight(right.getLeft());
-		right.getLeft().setParent(toRotate);
-		right.setLeft(toRotate);
-		toRotate.setParent(right);
 	}
 
 	@Override
-	public void rightRotate(Node<K, E> toRotate) {// pregunta, para hacer la herencia como manejamos, protected, y la clase nodo solo sera una? siempre tendra factor de bala
+	public void rightRotate(Node<K, E> toRotate) {
 		Node<K, E> left = toRotate.getLeft();
-		left.setParent(toRotate.getParent());
-		if (toRotate.getParent() != null) {
-			if (toRotate == toRotate.getParent().getRight()) {
-				toRotate.getParent().setRight(left);
-			} else {
-				toRotate.getParent().setLeft(left);
+		if (toRotate != null) {
+			if (left != null) {
+				left.setParent(toRotate.getParent());
+				if (toRotate.getParent() != null) {
+					if (toRotate == toRotate.getParent().getRight()) {
+						toRotate.getParent().setRight(left);
+					} else {
+						toRotate.getParent().setLeft(left);
+					}
+				} else {
+					super.setRoot(left);
+				}
+				if (left.getRight() != null) {
+					toRotate.setLeft(left.getRight());
+					left.getRight().setParent(toRotate);
+				}
+				left.setRight(toRotate);
+				toRotate.setParent(left);
 			}
-		} else {
-			super.setRoot(left);
 		}
-		toRotate.setLeft(left.getRight());
-		left.getRight().setParent(toRotate);
-		left.setRight(toRotate);
-		toRotate.setParent(left);
 	}
+	
+	public boolean verifyBalance(int r, int l) {
+		boolean balance = true;
+		if (r - l > 1 || r - l < -1) {
+			balance = false;
+		}
+		return balance;
+	}
+	
+	public void balanceIt(Node<K, E> x) {
+		int r = returnHeight(x.getRight());
+		int l = returnHeight(x.getLeft());
+		
+		boolean balan = verifyBalance(r, l);
+		if (!balan) {
+			if (r - l > 1) {
+				if (balan) {
+					
+				}
+			} 
+		}
+	}
+	
+	//---------------------------------- NUEVO INTENTO ------------------------------------------
 
 	@Override
 	public void insert(K key, E element) {
@@ -173,13 +227,15 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 //--------------------------------------------------------
 
 	public void rightCases(Node<K,E> nodeR) {
-		int balanceF = balanceFactor(nodeR);
-		if(balanceF == 1 || balanceF == 0) {
-			leftRotate(nodeR.getParent());
-		}else {
-			Node<K, E> parent = nodeR.getParent();
-			rightRotate(nodeR.getParent());
-			leftRotate(parent);
+		if (nodeR != null) {
+			int balanceF = balanceFactor(nodeR);
+			if(balanceF == 1 || balanceF == 0) {
+				leftRotate(nodeR.getParent());
+			}else {
+				Node<K, E> parent = nodeR.getParent();
+				rightRotate(nodeR.getParent());
+				leftRotate(parent);
+			}
 		}
 	}
 	
@@ -197,8 +253,8 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	
 	public int balanceFactor (Node<K,E> node) {
 		if(node!=null) {
-			//int right = super.height(node.getRight()); la varaible right debe tener la altura desde ese nodo
-			//int left = super.height(node.getLeft()); la variable left debe tener la altura por la izquierda desde ese nodo
+			//int right = super.height(node.getRight()); la varaible right debe tener la height desde ese nodo
+			//int left = super.height(node.getLeft()); la variable left debe tener la height por la izquierda desde ese nodo
 			//return right - left;
 		}
 		return 0;
@@ -206,7 +262,6 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	
 	public void balance(Node<K,E> node) {
 		if(node!=null) {
-			
 			int balanceFactor = balanceFactor(node);
 			Node<K,E> parent = node.getParent();
 			if(balanceFactor>1) {

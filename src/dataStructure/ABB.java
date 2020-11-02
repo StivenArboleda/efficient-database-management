@@ -167,7 +167,7 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 	public void update(K key, E element, K newKey) {
 
 		Node<K, E> n = search(key);
-		n.setType(element);
+		n.setElement(element);
 		n.setKey(newKey);
 	}
 

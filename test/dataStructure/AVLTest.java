@@ -34,8 +34,8 @@ class AVLTest {
 		int key = 75343;
 		int element = 63436;
 		avl.insert(key, element);
-		assertEquals(avl.getRoot().getType(), element, "The tree is not inserting in the correct way");
-		assertEquals(avl.search(key).getType(), element, "The tree is not inserting in the correct way");
+		assertEquals(avl.getRoot().getElement(), element, "The tree is not inserting in the correct way");
+		assertEquals(avl.search(key).getElement(), element, "The tree is not inserting in the correct way");
 	}
 	
 	@Test
@@ -44,7 +44,7 @@ class AVLTest {
 		int key = 75343;
 		int element = 63436;
 		avl.insert(key, element);
-		assertEquals(avl.search(key).getType(), element, "The tree is not inserting in the correct way");
+		assertEquals(avl.search(key).getElement(), element, "The tree is not inserting in the correct way");
 	}
 	
 	@Test
@@ -53,7 +53,7 @@ class AVLTest {
 		int key = 75343;
 		int element = 63436;
 		avl.insert(key, element);
-		assertEquals(avl.search(key).getType(), element, "The tree is not inserting in the correct way");
+		assertEquals(avl.search(key).getElement(), element, "The tree is not inserting in the correct way");
 	}
 	
 	@Test
@@ -89,18 +89,48 @@ class AVLTest {
 	@Test
 	void testSearch1() {
 		setupStage2();
-		assertEquals(avl.search(1).getType(), 5, "The tree is not searching as well");
+		assertEquals(avl.search(1).getElement(), 5, "The tree is not searching as well");
 	}
 	
 	@Test
 	void testSearch2() {
 		setupStage2();
-		assertEquals(avl.search(3).getType(), 7, "The tree is not searching as well");
+		assertEquals(avl.search(3).getElement(), 7, "The tree is not searching as well");
+	}
+	
+	
+	@Test
+	void testBalanceFactor0() {
+		
+	}
+	
+	
+//	public void rightCases(Node<K,E> nodeR) {
+//		int balanceF = balanceFactor(nodeR);
+//		if(balanceF == 1 || balanceF == 0) {
+//			leftRotate(nodeR.getParent());
+//		}else {
+//			Node<K, E> parent = nodeR.getParent();
+//			rightRotate(nodeR.getParent());
+//			leftRotate(parent);
+//		}
+//	}
+	
+	@Test
+	void testRightCases0() {
+		setupStage0();
+		Node<Integer, Integer> test = avl.getRoot();
+		avl.rightCases(test);
+		assertEquals(test, avl.getRoot());
 	}
 	
 	@Test
-	void leftRotate1() {
+	void testRightCases1() {
 		setupStage1();
+		Node<Integer, Integer> test = avl.getRoot();
+		avl.rightCases(test);
+		assertEquals(test, avl.getRoot());
+		assertEquals(test.getRight(), null);
+		assertEquals(test.getLeft(), null);
 	}
-
 }
