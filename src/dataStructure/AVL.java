@@ -253,9 +253,9 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	
 	public int balanceFactor (Node<K,E> node) {
 		if(node!=null) {
-			//int right = super.height(node.getRight()); la varaible right debe tener la height desde ese nodo
-			//int left = super.height(node.getLeft()); la variable left debe tener la height por la izquierda desde ese nodo
-			//return right - left;
+			int right = node.getRight().getHeight();
+			int left = node.getLeft().getHeight();
+			return right - left;
 		}
 		return 0;
 	}

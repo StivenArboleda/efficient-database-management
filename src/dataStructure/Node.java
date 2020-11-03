@@ -25,9 +25,7 @@ public class Node<K extends Comparable<K>, E> {
     public void setFb(int fb) {
         this.fb = fb;
     }
-
     
-
     public Node<K, E> getParent() {
         return parent;
     }
