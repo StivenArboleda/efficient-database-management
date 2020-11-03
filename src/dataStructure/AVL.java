@@ -95,7 +95,7 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	public void balanceIt(Node<K, E> x) {
 		int r = returnHeight(x.getRight());
 		int l = returnHeight(x.getLeft());
-		
+		 
 		boolean balan = verifyBalance(r, l);
 		if (!balan) {
 			if (r - l > 1) {
