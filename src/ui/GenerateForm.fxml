@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="282.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="393.0" layoutY="174.0" mnemonicParsing="false" onAction="#generatePeople" text="Generate" />
+      <TextField fx:id="quantityToGenerate" layoutX="226.0" layoutY="175.0" text="130000000" />
+      <Label layoutX="52.0" layoutY="80.0" text="Please enter the quantity of persons that you want to generate">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="146.0" layoutY="174.0" text="Quantity:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ProgressBar fx:id="progressOfGeneration" layoutX="146.0" layoutY="229.0" prefWidth="200.0" progress="0.0" />
+      <Label fx:id="timeOFGeneration" layoutX="364.0" layoutY="228.0" text="Time: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
