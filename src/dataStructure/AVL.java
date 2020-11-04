@@ -10,17 +10,161 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	 * 
 	 */
 	private static final long serialVersionUID = -4872681473858411867L;
-
-
+	
 	public AVL() {
 		super();
 	}
-	//---------------------------------- NUEVO INTENTO ------------------------------------------
+	
+	public int height() {//of root
+		int h = 0;
+		if (super.getRoot() != null) {
+			h = super.getRoot().getHeight();
+		}
+		return h;
+	}
+	
+	@Override
+	public void update(Node<K, E> node) {
+		int leftH;
+		int rightH;
+		if (node.getLeft() == null) {
+			leftH = -1;
+		} else {
+			leftH = node.getLeft().getHeight();
+		}
+		if (node.getRight() == null) {
+			rightH = -1;
+		} else {
+			rightH = node.getRight().getHeight();
+		}
+		node.setHeight(1 + Math.max(leftH, rightH));
+		node.setFb(rightH - leftH); 
+	}
+
+	 
+	@Override
+	public Node<K, E> balance(Node<K, E> node) {
+		if (node.getFb() == -2) {
+			if (node.getLeft().getFb() <= 0) {
+				node = leftLeftCase(node);
+			} else {
+				node = leftRightCase(node);
+			}
+	    } else if (node.getFb() == 2) {
+	    	if (node.getRight().getFb() >= 0) {
+	    		node = rightRightCase(node);
+	    	} else {
+	    		node = rightLeftCase(node);
+	    	}
+	    }
+		return node;
+	}
+
+	
+
+	private Node<K, E> leftLeftCase(Node<K, E> node) {
+		return rightRotation(node);
+	}
+
+	private Node<K, E> leftRightCase(Node<K, E> node) {
+		node.setLeft(leftRotation(node.getLeft()));
+		return leftLeftCase(node);
+		
+	}
+
+	private Node<K, E> rightRightCase(Node<K, E> node) {
+		return leftRotation(node);
+	}
+
+	private Node<K, E> rightLeftCase(Node<K, E> node) {
+		node.setRight(leftRotation(node.getRight()));
+		return rightRightCase(node);
+	}
+	
+	@Override
+	public Node<K, E> rightRotation(Node<K, E> node) {
+		Node<K, E> newFather = node.getLeft();
+		node.setLeft(newFather.getRight());
+		if (null != newFather.getRight()) {
+			newFather.getRight().setParent(node);
+		}
+		newFather.setRight(node);
+		if (node != super.getRoot()) {
+			newFather.setParent(node.getParent());
+			if (node == node.getParent().getRight()) {
+				node.getParent().setRight(newFather);
+			} else {
+				node.getParent().setLeft(newFather);
+			}
+		}
+		node.setParent(newFather);
+		update(node);
+		update(newFather);
+		return newFather;
+	}
+
+	@Override
+	public Node<K, E> leftRotation(Node<K, E> node) {
+		Node<K, E> newFather = node.getRight();
+		node.setRight(newFather.getLeft());
+		if (null != newFather.getLeft()) {
+			newFather.getLeft().setParent(node);
+		}
+		newFather.setLeft(node);
+		if (node != super.getRoot()) {
+			newFather.setParent(node.getParent());
+			if (node.getParent().getLeft() == node) {
+				node.getParent().setLeft(newFather); 
+			} else {
+				node.getParent().setRight(newFather);
+			}
+		}
+		node.setParent(newFather);
+		update(node);
+		update(newFather);
+		return newFather;
+	}
+//______________________________________________________________________________________________________	
+//______________________________________________________________________________________________________
+//______________________________________________________________________________________________________	
+//______________________________________________________________________________________________________		
+	
+	@Override
+	public void insert(K key, E element) {// estoy casi seguro que este sirve
+		Node<K, E> x = new Node<>(key, element);
+		super.insert(x);
+		update(x);
+		balance(x);
+	}
+	
+	@Override
+	public Node<K, E> delete(K key) {// estoy casi seguro que este no sirve
+		Node<K, E> x = super.search(key).getParent();
+		Node<K, E> deleted = super.delete(key);
+		if (x != null) {
+			update(x);
+			balance(x);
+		} else {
+			update(super.getRoot());
+			balance(super.getRoot());
+		}
+		return deleted;
+	}
+	
+//______________________________________________________________________________________________________	
+//______________________________________________________________________________________________________
+//______________________________________________________________________________________________________	
+//______________________________________________________________________________________________________	
+	
+
+/*	//---------------------------------- NUEVO INTENTO ------------------------------------------
 	public int returnHeight(Node<K, E> node) {
         int height = 0;
         height = returnHeight(node, 1, height);
         node.setHeight(height);
+       
         return height;
+        
     }
 
     private int returnHeight(Node<K, E> node, int nivel, int height) {
@@ -34,7 +178,7 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
         return height;
     }
 
-	@Override
+	
 	public void leftRotate(Node<K, E> toRotate) {
 		Node<K, E> right = toRotate.getRight();
 		if (toRotate != null) {
@@ -59,7 +203,7 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 		}
 	}
 
-	@Override
+	
 	public void rightRotate(Node<K, E> toRotate) {
 		Node<K, E> left = toRotate.getLeft();
 		if (toRotate != null) {
@@ -108,16 +252,10 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	
 	//---------------------------------- NUEVO INTENTO ------------------------------------------
 
-	@Override
-	public void insert(K key, E element) {
-		Node<K, E> x = new Node<>(key, element);
-		super.insert(x);
-		x.setFb(0);
-		rebalance(x);
-		recalculate(x);
-	}
 	
-	@Override
+	
+	
+	
 	public void recalculate(Node<K, E> x) {
 		Node<K, E> current = x.getParent();
 		while (current != null) {
@@ -134,7 +272,7 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 		}
 	}
 	
-	@Override
+	
 	public void rebalance(Node<K, E> x) {
 		
 		while (x != null) {
@@ -177,7 +315,7 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 		}
 	}
 	
-	@Override
+	
 	public void recalculate(Node<K, E> x, boolean left) {
 		Node<K, E> current = x.getParent();
 		while (current != null) {
@@ -273,8 +411,8 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 			}
 			balance(parent);
 		}
-	}
+	}*/
 
-	
+
 
 }

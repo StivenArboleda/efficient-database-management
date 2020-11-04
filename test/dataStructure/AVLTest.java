@@ -115,22 +115,5 @@ class AVLTest {
 //			leftRotate(parent);
 //		}
 //	}
-	
-	@Test
-	void testRightCases0() {
-		setupStage0();
-		Node<Integer, Integer> test = avl.getRoot();
-		avl.rightCases(test);
-		assertEquals(test, avl.getRoot());
-	}
-	
-	@Test
-	void testRightCases1() {
-		setupStage1();
-		Node<Integer, Integer> test = avl.getRoot();
-		avl.rightCases(test);
-		assertEquals(test, avl.getRoot());
-		assertEquals(test.getRight(), null);
-		assertEquals(test.getLeft(), null);
-	}
+
 }

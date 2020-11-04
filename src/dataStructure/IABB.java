@@ -2,7 +2,6 @@ package dataStructure;
 
 public interface IABB<K extends Comparable<K>, E> {
   
-    public void update(K key, E element, K newKey);
 	public Node<K, E> succesor(Node<K, E> x);
 	public Node<K, E> maximun();
 	public Node<K, E> maximun(Node<K, E> x);

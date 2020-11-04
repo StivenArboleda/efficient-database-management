@@ -2,14 +2,10 @@ package dataStructure;
 
 public interface IAVL<K extends Comparable<K>, E> {
 	
-    public void insert(K key, E element);
-   
-    public void update(K key, E element, K newKey);
-    public Node<K, E> search(K key);
-   
-    public void recalculate(Node<K, E> x);
-	public void rebalance(Node<K, E> x);
-	public void recalculate(Node<K, E> x, boolean left);
-	public void rightRotate(Node<K, E> toRotate);
-	public void leftRotate(Node<K, E> toRotate);
+	public void update(Node<K, E> node);
+	public Node<K, E> balance(Node<K, E> node);
+	public Node<K, E> rightRotation(Node<K, E> node);
+	public Node<K, E> leftRotation(Node<K, E> node);
+	public void insert(K key, E element);
+	public Node<K, E> delete(K key);
 }

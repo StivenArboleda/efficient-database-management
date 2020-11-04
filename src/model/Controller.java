@@ -23,7 +23,7 @@ public class Controller {
 	private String[] aNames;
 	private String[] aLastNames;
 
-	public Controller(String[] c, double[] p, String[] an, String[] al) {
+	public Controller() {
 		actualCod = 1;
 		countries = new String[51];
 		percentage = new double[51];
@@ -276,7 +276,5 @@ public class Controller {
 	public void setaLastNames(String[] aLastNames) {
 		this.aLastNames = aLastNames;
 	}
-	
-	
 	
 }

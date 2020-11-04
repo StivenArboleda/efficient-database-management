@@ -2,6 +2,8 @@ package dataStructure;
 
 import java.io.Serializable;
 
+import javax.print.attribute.standard.MediaSize.ISO;
+
 
 
 
@@ -12,10 +14,22 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 	 */
 	private static final long serialVersionUID = -3253538206332644643L;
 	private Node<K, E> root;
-	protected int height;
+	private int counter;
 
 	public ABB() {
 		this.root = null;
+	}
+	
+	public int size() {
+		return counter;
+	}
+	 
+	public boolean isEmpty() {
+		boolean is = false;
+		if (counter == 0) {
+			is = true;
+		}
+		return is; 
 	}
 
 	public Node<K, E> getRoot() {
@@ -30,6 +44,7 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 	public void insert(K key, E element) {
 		Node<K, E> in = new Node<>(key, element);
 		insert(in);
+		counter++;
 	}
 
 	@Override
@@ -93,6 +108,7 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 			if (deleted != z) {
 				z.setKey(deleted.getKey());
 			}
+			counter--;
 		}
 		
 		return deleted;
@@ -163,13 +179,20 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 	}
 	
 
-	@Override
-	public void update(K key, E element, K newKey) {
-
-		Node<K, E> n = search(key);
-		n.setElement(element);
-		n.setKey(newKey);
-	}
-
+	 
+	 public boolean validateABBInvarient(Node<K, E> node) {
+		 if (node == null) {
+			return true;
+		}
+		K key = node.getKey();
+		boolean isOk = true;
+		if (node.getLeft() != null) {
+			isOk = (isOk && node.getLeft().getKey().compareTo(key) < 0);
+ 		}
+		if (node.getRight() != null) {
+			isOk = (isOk && node.getRight().getKey().compareTo(key) > 0);
+		}
+		return (isOk && validateABBInvarient(node.getLeft()) && validateABBInvarient(node.getRight()));
+	 }
 	
 }
