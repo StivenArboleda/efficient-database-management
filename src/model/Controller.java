@@ -1,8 +1,17 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import dataStructure.AVL;
 
 public class Controller {
+	
+	public final static String COUNTRIES = "data/countries.csv";
+	public final static String LASTNAMES = "data/lastNames.csv";
+	public final static String NAMES = "data/names.csv";
 	
 	private int actualCod;
 	private AVL<String, Person> names;
@@ -14,12 +23,12 @@ public class Controller {
 	private String[] aNames;
 	private String[] aLastNames;
 
-	public Controller(String[] c, double[] p, String[] an, String[] al) {
+	public Controller() {
 		actualCod = 1;
-		countries = c;
-		percentage = p;
-		aNames = an;
-		aLastNames = al;
+		countries = new String[51];
+		percentage = new double[51];
+		aNames = new String[6781];
+		aLastNames = new String[162252];
 	}
 	
 	public String generateCod() {
@@ -87,16 +96,185 @@ public class Controller {
 	}
 	
 	private String generateNationality() {
-		String country = "United States";
+		String country = countries[0];
 		double aleatory = Math.random();
-		for (int i = 0; i < countries.length; i++) {
+		boolean found = false;
+		for (int i = 0; i < countries.length && !found; i++) {
 			if (aleatory <= percentage[i]) {
 				country = countries[i];
-			}
+				found = true;
+			} 
 		}
 		return country;
 	}
 	
+	public void loadFromFilesCountries() throws IOException {
+		FileReader br = new FileReader(new File(COUNTRIES));
+		BufferedReader bw = new BufferedReader(br);
+		String line = bw.readLine();
+		int i = 0;
+		while (line != null) {
+			String[] data = line.split(",");
+			countries[i]  = data[0];
+			percentage[i] = Double.parseDouble(data[2]);
+			i++;
+		}
+		br.close();
+		bw.close();
+	}
 	
+	public void loadFromFilesNames() throws IOException {
+		FileReader br = new FileReader(new File(NAMES));
+		BufferedReader bw = new BufferedReader(br);
+		String line = bw.readLine();
+		int i = 0;
+		while (line != null) {
+			String[] data = line.split(",");
+			aNames[i]  = data[0];
+			i++;
+		}
+		br.close();
+		bw.close();
+	}
+	
+	public void loadFromFilesLastNames() throws IOException {
+		FileReader br = new FileReader(new File(LASTNAMES));
+		BufferedReader bw = new BufferedReader(br);
+		String line = bw.readLine();
+		int i = 0;
+		while (line != null) {
+			String[] data = line.split(",");
+			aLastNames[i]  = data[0];
+			i++;
+		}
+		br.close();
+		bw.close();
+	}
+
+	/**
+	 * @return the actualCod
+	 */
+	public int getActualCod() {
+		return actualCod;
+	}
+
+	/**
+	 * @param actualCod the actualCod to set
+	 */
+	public void setActualCod(int actualCod) {
+		this.actualCod = actualCod;
+	}
+
+	/**
+	 * @return the names
+	 */
+	public AVL<String, Person> getNames() {
+		return names;
+	}
+
+	/**
+	 * @param names the names to set
+	 */
+	public void setNames(AVL<String, Person> names) {
+		this.names = names;
+	}
+
+	/**
+	 * @return the lastNames
+	 */
+	public AVL<String, Person> getLastNames() {
+		return lastNames;
+	}
+
+	/**
+	 * @param lastNames the lastNames to set
+	 */
+	public void setLastNames(AVL<String, Person> lastNames) {
+		this.lastNames = lastNames;
+	}
+
+	/**
+	 * @return the completeNames
+	 */
+	public AVL<String, Person> getCompleteNames() {
+		return completeNames;
+	}
+
+	/**
+	 * @param completeNames the completeNames to set
+	 */
+	public void setCompleteNames(AVL<String, Person> completeNames) {
+		this.completeNames = completeNames;
+	}
+
+	/**
+	 * @return the cod
+	 */
+	public AVL<String, Person> getCod() {
+		return cod;
+	}
+
+	/**
+	 * @param cod the cod to set
+	 */
+	public void setCod(AVL<String, Person> cod) {
+		this.cod = cod;
+	}
+
+	/**
+	 * @return the countries
+	 */
+	public String[] getCountries() {
+		return countries;
+	}
+
+	/**
+	 * @param countries the countries to set
+	 */
+	public void setCountries(String[] countries) {
+		this.countries = countries;
+	}
+
+	/**
+	 * @return the percentage
+	 */
+	public double[] getPercentage() {
+		return percentage;
+	}
+
+	/**
+	 * @param percentage the percentage to set
+	 */
+	public void setPercentage(double[] percentage) {
+		this.percentage = percentage;
+	}
+
+	/**
+	 * @return the aNames
+	 */
+	public String[] getaNames() {
+		return aNames;
+	}
+
+	/**
+	 * @param aNames the aNames to set
+	 */
+	public void setaNames(String[] aNames) {
+		this.aNames = aNames;
+	}
+
+	/**
+	 * @return the aLastNames
+	 */
+	public String[] getaLastNames() {
+		return aLastNames;
+	}
+
+	/**
+	 * @param aLastNames the aLastNames to set
+	 */
+	public void setaLastNames(String[] aLastNames) {
+		this.aLastNames = aLastNames;
+	}
 	
 }
