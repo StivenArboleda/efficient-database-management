@@ -27,36 +27,41 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	public void update(Node<K, E> node) {
 		int leftH;
 		int rightH;
-		if (node.getLeft() == null) {
-			leftH = -1;
-		} else {
-			leftH = node.getLeft().getHeight();
+		if (node != null) {
+			if (node.getLeft() == null) {
+				leftH = -1;
+			} else {
+				leftH = node.getLeft().getHeight();
+			}
+			if (node.getRight() == null) {
+				rightH = -1;
+			} else {
+				rightH = node.getRight().getHeight();
+			}
+			
+			node.setHeight(1 + Math.max(leftH, rightH));
+			node.setFb(rightH - leftH); 
 		}
-		if (node.getRight() == null) {
-			rightH = -1;
-		} else {
-			rightH = node.getRight().getHeight();
-		}
-		node.setHeight(1 + Math.max(leftH, rightH));
-		node.setFb(rightH - leftH); 
 	}
 
 	 
 	@Override
 	public Node<K, E> balance(Node<K, E> node) {
-		if (node.getFb() == -2) {
-			if (node.getLeft().getFb() <= 0) {
-				node = leftLeftCase(node);
-			} else {
-				node = leftRightCase(node);
-			}
-	    } else if (node.getFb() == 2) {
-	    	if (node.getRight().getFb() >= 0) {
-	    		node = rightRightCase(node);
-	    	} else {
-	    		node = rightLeftCase(node);
-	    	}
-	    }
+		if (node != null) {
+			if (node.getFb() == -2) {
+				if (node.getLeft().getFb() <= 0) {
+					node = leftLeftCase(node);
+				} else {
+					node = leftRightCase(node);
+				}
+		    } else if (node.getFb() == 2) {
+		    	if (node.getRight().getFb() >= 0) {
+		    		node = rightRightCase(node);
+		    	} else {
+		    		node = rightLeftCase(node);
+		    	}
+		    }
+		}
 		return node;
 	}
 
@@ -83,6 +88,7 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	
 	@Override
 	public Node<K, E> rightRotation(Node<K, E> node) {
+		
 		Node<K, E> newFather = node.getLeft();
 		node.setLeft(newFather.getRight());
 		if (null != newFather.getRight()) {
@@ -96,6 +102,9 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 			} else {
 				node.getParent().setLeft(newFather);
 			}
+		} else {
+			super.setRoot(newFather);
+			newFather.setParent(null);
 		}
 		node.setParent(newFather);
 		update(node);
@@ -118,6 +127,9 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 			} else {
 				node.getParent().setRight(newFather);
 			}
+		} else {
+			super.setRoot(newFather);
+			newFather.setParent(null);
 		}
 		node.setParent(newFather);
 		update(node);
@@ -133,17 +145,33 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	public void insert(K key, E element) {// estoy casi seguro que este sirve
 		Node<K, E> x = new Node<>(key, element);
 		super.insert(x);
-		update(x);
-		balance(x);
+		while (x != null) {
+			update(x);
+			balance(x);
+			x = x.getParent();
+		}
+		
 	}
 	
 	@Override
 	public Node<K, E> delete(K key) {// estoy casi seguro que este no sirve
-		Node<K, E> x = super.search(key).getParent();
-		Node<K, E> deleted = super.delete(key);
-		if (x != null) {
-			update(x);
-			balance(x);
+//		Borrar k del arbol como en un ABB
+//		Sea y el primer nodo posiblemente desbalanceado CUAL SERIA
+//		AVL-Rebalance(y)
+		Node<K, E> node = super.search(key);
+		Node<K, E> father = null;
+		if (node != null) {
+			father = node.getParent();
+		}
+		
+		Node<K, E> deleted = super.delete(node);
+		if (father != null) {
+			while (father != null) {
+				update(father);
+				balance(father);
+				father = father.getParent();
+			}
+			
 		} else {
 			update(super.getRoot());
 			balance(super.getRoot());

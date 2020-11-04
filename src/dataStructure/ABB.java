@@ -2,10 +2,6 @@ package dataStructure;
 
 import java.io.Serializable;
 
-import javax.print.attribute.standard.MediaSize.ISO;
-
-
-
 
 public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable {
 
@@ -13,6 +9,7 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = -3253538206332644643L;
+	
 	private Node<K, E> root;
 	private int counter;
 
@@ -181,6 +178,7 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 
 	 
 	 public boolean validateABBInvarient(Node<K, E> node) {
+		 boolean valid = false;
 		 if (node == null) {
 			return true;
 		}
@@ -192,7 +190,8 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 		if (node.getRight() != null) {
 			isOk = (isOk && node.getRight().getKey().compareTo(key) > 0);
 		}
-		return (isOk && validateABBInvarient(node.getLeft()) && validateABBInvarient(node.getRight()));
+		valid = (isOk && validateABBInvarient(node.getLeft()) && validateABBInvarient(node.getRight()));
+		return valid;
 	 }
 	
 }
