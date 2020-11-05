@@ -1,5 +1,6 @@
 package dataStructure;
 
-public interface IRedBlackTree {
+public interface IRedBlackTree<K extends Comparable<K>, E> {
+	
 
 }

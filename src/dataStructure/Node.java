@@ -110,9 +110,10 @@ public class Node<K extends Comparable<K>, E> {
 		this.value = value;
 	}
 
-	public Node(K key, boolean color, Node<K,E> parent, Node<K,E> left, Node<K,E> right) {
+	public Node(K key, E element, boolean color, Node<K,E> parent, Node<K,E> left, Node<K,E> right) {
 		this.value = key;
 		this.color = color;
+		this.element = element;
 
 		if (parent == null && left == null && right == null) {
 			parent = this;
