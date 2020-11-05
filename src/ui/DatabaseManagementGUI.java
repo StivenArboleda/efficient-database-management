@@ -2,11 +2,15 @@ package ui;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DateCell;
@@ -19,8 +23,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import model.Controller;
 import model.Date;
 import model.Person;
@@ -93,6 +99,11 @@ public class DatabaseManagementGUI {
 		mainPane.getChildren().clear();
     	mainPane.setCenter(addPersonPane);
     	initializeDatePicker();
+    	
+    	searchByCode = false;
+		searchByFullname = false;
+		searchByName = false;
+		searchBySurname = false;
     }
 
     @FXML
@@ -104,6 +115,11 @@ public class DatabaseManagementGUI {
     	
 		mainPane.getChildren().clear();
     	mainPane.setCenter(generatePplPane);
+    	
+    	searchByCode = false;
+		searchByFullname = false;
+		searchByName = false;
+		searchBySurname = false;
     }
 
     @FXML
@@ -115,6 +131,11 @@ public class DatabaseManagementGUI {
     	
 		mainPane.getChildren().clear();
     	mainPane.setCenter(updatePersonPane);
+    	
+    	searchByCode = false;
+		searchByFullname = false;
+		searchByName = false;
+		searchBySurname = false;
     }
     
     @FXML
@@ -165,26 +186,23 @@ public class DatabaseManagementGUI {
     	searchBySurname = true;
     }
     
-    public void findPeopleMatch() {
-    	if (searchByCode) {
-			
-		}else if (searchByFullname) {
-			
-		}else if (searchByName) {
-			
-		}else if (searchBySurname) {
-			
-		}
-    	
-    	searchByCode = false;
-    	searchByFullname = false;
-    	searchByName = false;
-    	searchBySurname = false;
-    }
-    
     @FXML
     void predictText(KeyEvent  event) {
     	System.out.println("sdqwdqdwq");
+    	String prefix = searchField.getText();
+    	ArrayList<Person> coincidents = new ArrayList<Person>();
+    	
+    	if (searchByCode) {
+			coincidents.add(control.searchPerson(prefix, 3));
+		}else if (searchByFullname) {
+			coincidents.add(control.searchPerson(prefix, 2));
+		}else if (searchByName) {
+			coincidents.add(control.searchPerson(prefix, 0));
+		}else if (searchBySurname) {
+			coincidents.add(control.searchPerson(prefix, 1));
+		}
+    	
+    	loadTable(coincidents);
     }
     
     @FXML
@@ -217,7 +235,26 @@ public class DatabaseManagementGUI {
             	
             	double height = Double.parseDouble(addHeight.getText());
             	
-            	control.addPerson(addName.getText(), addSurname.getText(), gender, birthDate, height, addNationality.getText(), "https://thispersondoesnotexist.com");
+            	Button update = new Button("Update");
+            	update.setOnAction(e -> {
+        			try {
+        				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FindForm.fxml"));
+        				fxmlLoader.setController(this);
+        				Parent updatePersonPane = fxmlLoader.load();
+        				
+        				Scene scene = new Scene(updatePersonPane);
+        				Stage stage = new Stage(); 
+        				stage.setScene(scene);
+        				stage.setTitle("Efficent Database Management");
+        				stage.show();
+        			} catch (IOException e1) {
+        				// TODO Auto-generated catch block
+        				e1.printStackTrace();
+        			}
+        		});
+            	
+            	control.addPerson(addName.getText(), addSurname.getText(), gender, birthDate, height, addNationality.getText(), "https://thispersondoesnotexist.com", update);
+            	clearFieldsnAlert();
 			}else {
 				Alert emptyField = new Alert(AlertType.ERROR);
 				emptyField.setTitle("Some Field Empty");
@@ -232,13 +269,43 @@ public class DatabaseManagementGUI {
 		}
     }
     
+    public void clearFieldsnAlert() {
+    	addName.clear();
+    	addSurname.clear();
+    	addMale.setSelected(false);
+    	addFemale.setSelected(false);
+    	addBirthDate.getEditor().clear();
+    	addHeight.clear();
+    	addNationality.clear();
+    	
+    	Alert added = new Alert(AlertType.INFORMATION);
+    	added.setTitle("User Added");
+    	added.setHeaderText("User added successfully!");
+    	added.showAndWait();
+    }
+    
     public void initializeDatePicker() {
-    	LocalDate minDate = LocalDate.of(1989, 4, 16);
     	LocalDate maxDate = LocalDate.now();
     	addBirthDate.setDayCellFactory(d -> new DateCell() {
-    		@Override public void updateItem(LocalDate item, boolean empty) {
+    		@Override 
+    		public void updateItem(LocalDate item, boolean empty) {
     			super.updateItem(item, empty);
-    			setDisable(item.isAfter(maxDate) || item.isBefore(minDate));
-    			}});
+    			setDisable(item.isAfter(maxDate));
+    		}});
     }
+    
+    public void loadTable(ArrayList<Person> coincidents) {
+		ObservableList<Person> observableList;
+    	observableList = FXCollections.observableArrayList(coincidents);
+    	
+		tableEdit.setItems(observableList);
+		colName.setCellValueFactory(new PropertyValueFactory<Person, String>("name"));
+		colSurname.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));
+		colCode.setCellValueFactory(new PropertyValueFactory<Person, String>("cod"));
+		colGender.setCellValueFactory(new PropertyValueFactory<Person, String>("gender"));
+		colBirth.setCellValueFactory(new PropertyValueFactory<Person, String>("bornDate"));
+		colHeight.setCellValueFactory(new PropertyValueFactory<Person, String>("height"));
+		colNationality.setCellValueFactory(new PropertyValueFactory<Person, String>("nationality"));
+		colEdit.setCellValueFactory(new PropertyValueFactory<Person, Button>("update"));
+	}
 }
