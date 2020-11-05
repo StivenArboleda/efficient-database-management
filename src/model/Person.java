@@ -28,7 +28,7 @@ public class Person {
 	 * @param photo
 	 */
 	public Person(String cod, String name, String lastName, int gender, Date bornDate, double height,
-			String nationality, String photo) {
+			String nationality, String photo, Button update) {
 		this.cod = cod;
 		this.name = name;
 		this.lastName = lastName;
@@ -37,10 +37,7 @@ public class Person {
 		this.height = height;
 		this.nationality = nationality;
 		this.photo = photo;
-		this.update = new Button();
-		update.setOnAction(e -> {
-			
-		});
+		this.update = update;
 	}
 
 	/**
@@ -159,5 +156,19 @@ public class Person {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-
+	
+	/**
+	 * @return the button
+	 */
+	public Button getUpdate() {
+		return update;
+	}
+	
+	/**
+	 * @param button the button to set
+	 */
+	public void setUpdate(Button update) {
+		this.update = update;
+	}
+	
 }

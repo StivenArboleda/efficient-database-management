@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import dataStructure.AVL;
+import javafx.scene.control.Button;
 
 public class Controller {
 	
@@ -112,14 +113,15 @@ public class Controller {
 	}
 
 	public void addPerson(String name, String lastName, int gender, int year, int month, int day, double height,
-			String nationality, String photo) {
+			String nationality, String photo, Button update) {
+		
 		Date bornDate = createDate(year, month, day);
 		String cod = generateCod();
-		Person p = new Person(cod, name, lastName, gender, bornDate, height, nationality, photo);
+		Person p = new Person(cod, name, lastName, gender, bornDate, height, nationality, photo, update);
 		addPerson(p);
 	}
 	
-	public void addPerson(String photo) {
+	public void addPerson(String photo, Button update) {
 		String cod = generateCod();
 		Date date = generateDate();
 		int gender = generateGender();
@@ -128,7 +130,7 @@ public class Controller {
 		String[] completeName = generateName();
 		String name = completeName[0];
 		String lastName = completeName[1];
-		Person p = new Person(cod, name, lastName, gender, date, height, nationality, photo);
+		Person p = new Person(cod, name, lastName, gender, date, height, nationality, photo, update);
 		addPerson(p);
 	}
 	
