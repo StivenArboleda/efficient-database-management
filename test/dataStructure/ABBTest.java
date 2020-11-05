@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import dataStructure.ABB;
-
 class ABBTest {
 
 	private ABB<Integer, Integer> abb;
@@ -94,6 +92,12 @@ class ABBTest {
 	void testSearch2() {
 		setupStage2();
 		assertEquals(abb.search(3).getElement(), 7, "The tree is not searching as well");
+	}
+	
+	@Test
+	void testABBInvarient() {
+		setupStage2();
+		assertTrue(abb.validateABBInvarient(abb.getRoot()));
 	}
 
 }

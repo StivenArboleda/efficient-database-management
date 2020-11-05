@@ -97,25 +97,29 @@ class AVLTest {
 		assertEquals(avl.search(3).getElement(), 7, "The tree is not searching as well");
 	}
 	
-	
-	/*@Test
-	void testLeftRightCase() {
+	@Test
+	void testABBInvarient() {
 		setupStage2();
-		assertEquals(1, avl.getRoot().getKey());
-		
-	}*/
+		assertTrue(avl.validateABBInvarient(avl.getRoot()));
+	}
 	
+	@Test
+	void testPositions() {
+		setupStage2();
+		assertEquals(2, avl.getRoot().getKey());
+		assertEquals(1, avl.getRoot().getLeft().getKey());
+		assertEquals(3, avl.getRoot().getRight().getKey());
+		assertEquals(4, avl.getRoot().getRight().getRight().getKey());
+	}
 	
-	
-//	public void rightCases(Node<K,E> nodeR) {
-//		int balanceF = balanceFactor(nodeR);
-//		if(balanceF == 1 || balanceF == 0) {
-//			leftRotate(nodeR.getParent());
-//		}else {
-//			Node<K, E> parent = nodeR.getParent();
-//			rightRotate(nodeR.getParent());
-//			leftRotate(parent);
-//		}
-//	}
+	@Test
+	void testBalanceFactorInvariant() {
+		setupStage2();
+		assertTrue(avl.verifyAVLInvarient(avl.getRoot()));
+		for (int i = 0; i < 1000; i++) {
+			avl.insert((int) Math.random() * 1000, (int) Math.random() * 1000);
+		}
+		assertTrue(avl.verifyAVLInvarient(avl.getRoot()));
+	}
 
 }

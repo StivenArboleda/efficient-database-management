@@ -87,7 +87,6 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 	
 	@Override
 	public Node<K, E> rightRotation(Node<K, E> node) {
-		
 		Node<K, E> newFather = node.getLeft();
 		node.setLeft(newFather.getRight());
 		if (null != newFather.getRight()) {
@@ -167,6 +166,17 @@ public class AVL<K extends Comparable<K>, E> extends ABB<K, E> implements IAVL<K
 			balance(super.getRoot());
 		}
 		return deleted;
+	}
+	
+	public boolean verifyAVLInvarient(Node<K, E> node) {
+		boolean isIt = true;
+		if (node != null) {
+			if (node.getFb() < -1 || node.getFb() > 1) {
+				isIt = false;
+			}
+			isIt = isIt && verifyAVLInvarient(node.getRight()) && verifyAVLInvarient(node.getLeft());
+		}	
+		return isIt;
 	}
 
 }

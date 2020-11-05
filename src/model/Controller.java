@@ -29,6 +29,10 @@ public class Controller {
 		percentage = new double[51];
 		aNames = new String[6781];
 		aLastNames = new String[162252];
+		cods = new AVL<>();
+		names = new AVL<>();
+		lastNames = new AVL<>();
+		completeNames = new AVL<>();
 	}
 	
 	public void updatePerson(Person p, String key, int criterion) {
@@ -70,7 +74,7 @@ public class Controller {
 	
 	public Person searchPerson(String key, int which) {// which es cual de las busquedas se realizara
 		Person p = null;							  // 0 por nombre
-		switch (which) {								  // 1 por apellido
+		switch (which) {							  // 1 por apellido
 			case 0:									  // 2 por nombre completo
 				p = searchPersonName(key);			  // 3 por codigo
 			break;									  // key es el correspondiente a la busqueda
@@ -206,6 +210,7 @@ public class Controller {
 			countries[i]  = data[0];
 			percentage[i] = Double.parseDouble(data[2]);
 			i++;
+			line = bw.readLine();
 		}
 		br.close();
 		bw.close();
@@ -220,6 +225,7 @@ public class Controller {
 			String[] data = line.split(",");
 			aNames[i]  = data[0];
 			i++;
+			line = bw.readLine();
 		}
 		br.close();
 		bw.close();
@@ -234,6 +240,7 @@ public class Controller {
 			String[] data = line.split(",");
 			aLastNames[i]  = data[0];
 			i++;
+			line = bw.readLine();
 		}
 		br.close();
 		bw.close();
