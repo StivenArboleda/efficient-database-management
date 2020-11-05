@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="149.0" layoutY="71.0" text="Search by:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="searchField" layoutX="235.0" layoutY="71.0" onKeyTyped="#predictText" prefHeight="25.0" prefWidth="228.0" />
+      <Label fx:id="results" layoutX="433.0" layoutY="75.0" />
+      <ListView fx:id="predictList" layoutX="235.0" layoutY="96.0" prefHeight="82.0" prefWidth="228.0" visible="false" />
+      <TableView fx:id="tableEdit" layoutX="40.0" layoutY="181.0" prefHeight="232.0" prefWidth="619.0">
+        <columns>
+          <TableColumn fx:id="colName" prefWidth="106.0" text="Name" />
+          <TableColumn fx:id="colSurname" prefWidth="97.0" text="Surname" />
+            <TableColumn fx:id="colCode" prefWidth="70.0" text="Code" />
+            <TableColumn fx:id="colGender" prefWidth="57.0" text="Gender" />
+            <TableColumn fx:id="colBirth" prefWidth="85.0" text="Birth date" />
+            <TableColumn fx:id="colHeight" prefWidth="56.0" text="Height" />
+            <TableColumn fx:id="colNationality" prefWidth="79.0" text="Nationality" />
+            <TableColumn fx:id="colEdit" prefWidth="68.0" text="Edit" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

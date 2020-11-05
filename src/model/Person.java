@@ -1,5 +1,6 @@
 package model;
 
+import javafx.scene.control.Button;
 
 public class Person {
 	
@@ -14,6 +15,7 @@ public class Person {
 	private double height;
 	private String nationality;
 	private String photo;
+	private Button update;
 	
 	/**
 	 * @param cod
