@@ -46,6 +46,10 @@ public class Person {
 	public String getCod() {
 		return cod;
 	}
+	
+	public String getCompleteName() {
+		return name + " " + lastName;
+	}
 
 	/**
 	 * @param cod the cod to set
@@ -152,7 +156,5 @@ public class Person {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-	
 
-	
 }

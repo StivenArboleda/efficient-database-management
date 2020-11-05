@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import dataStructure.AVL;
 
 
 class AVLTest {
@@ -99,10 +98,13 @@ class AVLTest {
 	}
 	
 	
-	@Test
-	void testBalanceFactor0() {
+	/*@Test
+	void testLeftRightCase() {
+		setupStage2();
+		assertEquals(1, avl.getRoot().getKey());
 		
-	}
+	}*/
+	
 	
 	
 //	public void rightCases(Node<K,E> nodeR) {
