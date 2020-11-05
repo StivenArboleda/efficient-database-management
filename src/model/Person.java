@@ -29,7 +29,6 @@ public class Person {
 	 */
 	public Person(String cod, String name, String lastName, int gender, Date bornDate, double height,
 			String nationality, String photo) {
-		super();
 		this.cod = cod;
 		this.name = name;
 		this.lastName = lastName;
@@ -38,6 +37,10 @@ public class Person {
 		this.height = height;
 		this.nationality = nationality;
 		this.photo = photo;
+		this.update = new Button();
+		update.setOnAction(e -> {
+			
+		});
 	}
 
 	/**

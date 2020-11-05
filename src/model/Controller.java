@@ -68,9 +68,9 @@ public class Controller {
 		 cods.delete(p.getCod());
 	}
 	
-	public Person searchPerson(String key, int wich) {// wich es cual de las busquedas se realizara
+	public Person searchPerson(String key, int which) {// which es cual de las busquedas se realizara
 		Person p = null;							  // 0 por nombre
-		switch (wich) {								  // 1 por apellido
+		switch (which) {								  // 1 por apellido
 			case 0:									  // 2 por nombre completo
 				p = searchPersonName(key);			  // 3 por codigo
 			break;									  // key es el correspondiente a la busqueda
@@ -125,7 +125,7 @@ public class Controller {
 	
 	private void addPerson(Person p) {
 		names.insert(p.getName(), p);
-		lastNames.insert(p.getName(), p);
+		lastNames.insert(p.getLastName(), p);
 		completeNames.insert(p.getCompleteName(), p);
 		cods.insert(p.getCod(), p);
 	}

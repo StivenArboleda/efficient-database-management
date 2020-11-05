@@ -8,17 +8,16 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="338.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="addName" layoutX="96.0" layoutY="74.0" />
       <TextField fx:id="addSurname" layoutX="96.0" layoutY="122.0" />
-      <RadioButton layoutX="95.0" layoutY="171.0" mnemonicParsing="false" text="Male">
+      <RadioButton fx:id="addMale" layoutX="95.0" layoutY="171.0" mnemonicParsing="false" text="Male">
          <toggleGroup>
             <ToggleGroup fx:id="addGender" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton layoutX="95.0" layoutY="190.0" mnemonicParsing="false" text="Female" toggleGroup="$addGender" />
+      <RadioButton fx:id="addFemale" layoutX="95.0" layoutY="190.0" mnemonicParsing="false" text="Female" toggleGroup="$addGender" />
       <DatePicker fx:id="addBirthDate" layoutX="95.0" layoutY="231.0" prefHeight="25.0" prefWidth="149.0" />
       <TextField fx:id="addHeight" layoutX="171.0" layoutY="176.0" prefHeight="25.0" prefWidth="73.0" />
       <TextField fx:id="addNationality" layoutX="95.0" layoutY="280.0" />

@@ -1,24 +1,28 @@
 package ui;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import model.Controller;
+import model.Date;
 import model.Person;
 
 public class DatabaseManagementGUI {
@@ -40,7 +44,9 @@ public class DatabaseManagementGUI {
     @FXML
     private TextField addSurname;
     @FXML
-    private ToggleGroup addGender;
+    private RadioButton addMale;
+    @FXML
+    private RadioButton addFemale;
     @FXML
     private DatePicker addBirthDate;
     @FXML
@@ -86,6 +92,7 @@ public class DatabaseManagementGUI {
     	
 		mainPane.getChildren().clear();
     	mainPane.setCenter(addPersonPane);
+    	initializeDatePicker();
     }
 
     @FXML
@@ -112,7 +119,7 @@ public class DatabaseManagementGUI {
     
     @FXML
     void showSearchByCode(ActionEvent event) throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("UpdateForm.fxml"));
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FindForm.fxml"));
 		
 		fxmlLoader.setController(this);
 		Parent updatePersonPane = fxmlLoader.load();
@@ -124,7 +131,7 @@ public class DatabaseManagementGUI {
 
     @FXML
     void showSearchByFullname(ActionEvent event) throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("UpdateForm.fxml"));
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FindForm.fxml"));
 		
 		fxmlLoader.setController(this);
 		Parent updatePersonPane = fxmlLoader.load();
@@ -136,7 +143,7 @@ public class DatabaseManagementGUI {
 
     @FXML
     void showSearchByName(ActionEvent event) throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("UpdateForm.fxml"));
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FindForm.fxml"));
 		
 		fxmlLoader.setController(this);
 		Parent updatePersonPane = fxmlLoader.load();
@@ -148,7 +155,7 @@ public class DatabaseManagementGUI {
 
     @FXML
     void showSearchBySurname(ActionEvent event) throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("UpdateForm.fxml"));
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FindForm.fxml"));
 		
 		fxmlLoader.setController(this);
 		Parent updatePersonPane = fxmlLoader.load();
@@ -187,8 +194,51 @@ public class DatabaseManagementGUI {
     
     @FXML
     void addPerson(ActionEvent event) {
-
+    	try {
+    		int gender = -1;
+        	
+        	if (addMale.isSelected()) {
+    			gender = 1;
+    		}else if (addFemale.isSelected()) {
+    			gender = 0;
+    		}else {
+    			Alert genderEmpty = new Alert(AlertType.ERROR);
+    			genderEmpty.setTitle("Gender Selector is Empty");
+    			genderEmpty.setHeaderText("Make sure that gender field dont stay empty");
+    			genderEmpty.showAndWait();
+    		}
+        	
+        	if (!addName.getText().isEmpty() && !addSurname.getText().isEmpty() && !addBirthDate.getEditor().getText().isEmpty() && !addHeight.getText().isEmpty() && !addNationality.getText().isEmpty()){
+        		int day = addBirthDate.getValue().getDayOfMonth();
+            	int month = addBirthDate.getValue().getMonthValue();
+            	int year = addBirthDate.getValue().getYear();
+            	
+            	Date birthDate = new Date(day, month, year);
+            	
+            	double height = Double.parseDouble(addHeight.getText());
+            	
+            	control.addPerson(addName.getText(), addSurname.getText(), gender, birthDate, height, addNationality.getText(), "https://thispersondoesnotexist.com");
+			}else {
+				Alert emptyField = new Alert(AlertType.ERROR);
+				emptyField.setTitle("Some Field Empty");
+				emptyField.setHeaderText("Make sure that no field stay empty");
+				emptyField.showAndWait();
+			}
+		} catch (NumberFormatException e) {
+			Alert wrongHeight = new Alert(AlertType.ERROR);
+			wrongHeight.setTitle("Wrong Format on Height Field");
+			wrongHeight.setHeaderText("Make sure that in field are no characters but numbers or it stay empty");
+			wrongHeight.showAndWait();
+		}
     }
     
-    
+    public void initializeDatePicker() {
+    	LocalDate minDate = LocalDate.of(1989, 4, 16);
+    	LocalDate maxDate = LocalDate.now();
+    	addBirthDate.setDayCellFactory(d -> new DateCell() {
+    		@Override public void updateItem(LocalDate item, boolean empty) {
+    			super.updateItem(item, empty);
+    			setDisable(item.isAfter(maxDate) || item.isBefore(minDate));
+    			}});
+    }
 }
