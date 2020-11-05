@@ -28,7 +28,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Controller;
-import model.Date;
 import model.Person;
 
 public class DatabaseManagementGUI {
@@ -231,8 +230,6 @@ public class DatabaseManagementGUI {
             	int month = addBirthDate.getValue().getMonthValue();
             	int year = addBirthDate.getValue().getYear();
             	
-            	Date birthDate = new Date(day, month, year);
-            	
             	double height = Double.parseDouble(addHeight.getText());
             	
             	Button update = new Button("Update");
@@ -253,7 +250,7 @@ public class DatabaseManagementGUI {
         			}
         		});
             	
-            	control.addPerson(addName.getText(), addSurname.getText(), gender, birthDate, height, addNationality.getText(), "https://thispersondoesnotexist.com", update);
+            	control.addPerson(addName.getText(), addSurname.getText(), gender, year, month, day, height, addNationality.getText(), "https://thispersondoesnotexist.com", update);
             	clearFieldsnAlert();
 			}else {
 				Alert emptyField = new Alert(AlertType.ERROR);

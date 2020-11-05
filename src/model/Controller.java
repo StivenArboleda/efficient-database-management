@@ -108,9 +108,15 @@ public class Controller {
 	private Person searchPersonCod(String cod) {
 		return cods.search(cod).getElement();
 	}
+	
+	public Date createDate(int year, int month, int day) {
+		return new Date(day, month, year);
+	}
 
-	public void addPerson(String name, String lastName, int gender, Date bornDate, double height,
+	public void addPerson(String name, String lastName, int gender, int year, int month, int day, double height,
 			String nationality, String photo, Button update) {
+		
+		Date bornDate = createDate(year, month, day);
 		String cod = generateCod();
 		Person p = new Person(cod, name, lastName, gender, bornDate, height, nationality, photo, update);
 		addPerson(p);
