@@ -93,19 +93,35 @@ public class Controller {
 	}
 	
 	private Person searchPersonName(String name) {
-		return names.search(name).getElement();
+		Person p = null;
+		if (names.search(name) != null) {
+			p = names.search(name).getElement();
+		}
+		return p;
 	}
 
 	private Person searchPersonLastName(String last) {
-		return lastNames.search(last).getElement();
+		Person p = null;
+		if (lastNames.search(last) != null) {
+			p = lastNames.search(last).getElement();
+		}
+		return p;
 	}
 
 	private Person searchPersonCompleteName(String complete) {
-		return completeNames.search(complete).getElement();
+		Person p = null;
+		if (completeNames.search(complete) != null) {
+			p = completeNames.search(complete).getElement();
+		}
+		return p;
 	}
 
 	private Person searchPersonCod(String cod) {
-		return cods.search(cod).getElement();
+		Person p = null;
+		if (cods.search(cod) != null) {
+			p = cods.search(cod).getElement();
+		}
+		return p;
 	}
 	
 	public Date createDate(int year, int month, int day) {

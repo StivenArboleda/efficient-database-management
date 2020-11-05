@@ -97,6 +97,8 @@ class AVLTest {
 		assertEquals(avl.search(3).getElement(), 7, "The tree is not searching as well");
 	}
 	
+	
+	//TODO SEARCH
 	@Test
 	void testABBInvarient() {
 		setupStage2();
