@@ -22,7 +22,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import model.Controller;
-import model.Date;
 import model.Person;
 
 public class DatabaseManagementGUI {
@@ -213,11 +212,9 @@ public class DatabaseManagementGUI {
             	int month = addBirthDate.getValue().getMonthValue();
             	int year = addBirthDate.getValue().getYear();
             	
-            	Date birthDate = new Date(day, month, year);
-            	
             	double height = Double.parseDouble(addHeight.getText());
             	
-            	control.addPerson(addName.getText(), addSurname.getText(), gender, birthDate, height, addNationality.getText(), "https://thispersondoesnotexist.com");
+            	control.addPerson(addName.getText(), addSurname.getText(), gender, year, month, day, height, addNationality.getText(), "https://thispersondoesnotexist.com");
 			}else {
 				Alert emptyField = new Alert(AlertType.ERROR);
 				emptyField.setTitle("Some Field Empty");
