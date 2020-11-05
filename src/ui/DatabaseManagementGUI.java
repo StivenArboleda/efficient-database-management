@@ -38,7 +38,7 @@ public class DatabaseManagementGUI {
     private TextField addNationality;
 
 	public DatabaseManagementGUI() {
-		this.control = new Controller(null, null, null, null);
+		this.control = new Controller();
 	}
 
 	@FXML

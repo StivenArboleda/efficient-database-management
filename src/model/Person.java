@@ -1,6 +1,5 @@
 package model;
 
-
 public class Person {
 	
 	public final static int FEMALE = 0;
@@ -43,6 +42,10 @@ public class Person {
 	 */
 	public String getCod() {
 		return cod;
+	}
+	
+	public String getCompleteName() {
+		return name + " " + lastName;
 	}
 
 	/**
@@ -150,7 +153,5 @@ public class Person {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-	
 
-	
 }

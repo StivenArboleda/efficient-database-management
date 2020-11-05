@@ -17,7 +17,7 @@ public class Controller {
 	private AVL<String, Person> names;
 	private AVL<String, Person> lastNames;
 	private AVL<String, Person> completeNames;
-	private AVL<String, Person> cod;
+	private AVL<String, Person> cods;
 	private String[] countries;
 	private double[] percentage;
 	private String[] aNames;
@@ -31,8 +31,83 @@ public class Controller {
 		aLastNames = new String[162252];
 	}
 	
-	public String generateCod() {
-		return "A00" + actualCod++;
+	public void updatePerson(Person p, String key, int criterion) {
+		switch (criterion) {
+			case 0:
+				p.setName(key);
+			break;
+			case 1:
+				p.setLastName(key);
+			break;
+			case 2:
+				p.setNationality(key);
+			break;
+			case 3:
+				p.setPhoto(key);
+			break;
+		}
+	}
+	
+	public void updatePerson(Person p, int gender) {
+		p.setGender(gender);
+	}
+	
+	public void updatePerson(Person p, int year, int month, int day) {
+		Date date = new Date(day, month, year);
+		p.setBornDate(date);
+	}
+	
+	public void updatePerson(Person p, double height) {
+		p.setHeight(height);
+	}
+	
+	public void deletePerson(Person p) {
+		 names.delete(p.getName());
+		 lastNames.delete(p.getLastName());
+		 completeNames.delete(p.getCompleteName());
+		 cods.delete(p.getCod());
+	}
+	
+	public Person searchPerson(String key, int wich) {// wich es cual de las busquedas se realizara
+		Person p = null;							  // 0 por nombre
+		switch (wich) {								  // 1 por apellido
+			case 0:									  // 2 por nombre completo
+				p = searchPersonName(key);			  // 3 por codigo
+			break;									  // key es el correspondiente a la busqueda
+			case 1:
+				p = searchPersonLastName(key);
+			break;
+			case 2:
+				p = searchPersonCompleteName(key);
+			break;
+			case 3:
+				p = searchPersonCod(key);
+			break;
+		}
+		return p;
+	}
+	
+	private Person searchPersonName(String name) {
+		return names.search(name).getElement();
+	}
+
+	private Person searchPersonLastName(String last) {
+		return lastNames.search(last).getElement();
+	}
+
+	private Person searchPersonCompleteName(String complete) {
+		return completeNames.search(complete).getElement();
+	}
+
+	private Person searchPersonCod(String cod) {
+		return cods.search(cod).getElement();
+	}
+
+	public void addPerson(String name, String lastName, int gender, Date bornDate, double height,
+			String nationality, String photo) {
+		String cod = generateCod();
+		Person p = new Person(cod, name, lastName, gender, bornDate, height, nationality, photo);
+		addPerson(p);
 	}
 	
 	public void addPerson(String photo) {
@@ -45,10 +120,18 @@ public class Controller {
 		String name = completeName[0];
 		String lastName = completeName[1];
 		Person p = new Person(cod, name, lastName, gender, date, height, nationality, photo);
-		names.insert(name, p);
-		lastNames.insert(lastName, p);
-		completeNames.insert(name + " " + lastName, p);
-		this.cod.insert(cod, p);
+		addPerson(p);
+	}
+	
+	private void addPerson(Person p) {
+		names.insert(p.getName(), p);
+		lastNames.insert(p.getName(), p);
+		completeNames.insert(p.getCompleteName(), p);
+		cods.insert(p.getCod(), p);
+	}
+	
+	public String generateCod() {
+		return "A00" + actualCod++;
 	}
 	
 	public String[] generateName() {
@@ -211,14 +294,14 @@ public class Controller {
 	 * @return the cod
 	 */
 	public AVL<String, Person> getCod() {
-		return cod;
+		return cods;
 	}
 
 	/**
 	 * @param cod the cod to set
 	 */
 	public void setCod(AVL<String, Person> cod) {
-		this.cod = cod;
+		this.cods = cod;
 	}
 
 	/**
