@@ -6,15 +6,15 @@ public class RedBlackTree<K extends Comparable<K>, E> extends ABB<K, E> {
 	private static final long serialVersionUID = 1L;
 
 
-	public NodeRBTree<K, E> root;
+	public Node<K, E> root;
 
 	private int nodeCount = 0;
 
 	
-	public NodeRBTree<K, E> node;
+	public Node<K, E> node;
 
 	public RedBlackTree() {
-		node = new NodeRBTree<>(NodeRBTree.BLACK, null);
+		node = new Node<>(Node.BLACK, null);
 		node.setLeft(node);
 		node.setRight(node);
 		node.setParent(node);
@@ -31,7 +31,7 @@ public class RedBlackTree<K extends Comparable<K>, E> extends ABB<K, E> {
 
 	public boolean contains(K value) {
 
-		NodeRBTree<K, E> nodeT = root;
+		Node<K, E> nodeT = root;
 
 		if (nodeT == null || value == null) {
 			return false;
@@ -59,56 +59,56 @@ public class RedBlackTree<K extends Comparable<K>, E> extends ABB<K, E> {
 	}
 
 	public void insert(K key, E elem) {
-		NodeRBTree<K, E> y = node;
-		NodeRBTree<K,E> z = new NodeRBTree<>(key, NodeRBTree.RED, y, node, node);
+		Node<K, E> y = node;
+		Node<K,E> z = new Node<>(key, Node.RED, y, node, node);
 		super.insert(key, elem);
 		insert(z);
 		nodeCount++;
 	}
 
-	private void insert(NodeRBTree<K, E> z) {
-		NodeRBTree<K,E> y = null;
-		while (z.getParent().getColor() == NodeRBTree.RED) {
+	public void insert(Node<K, E> z) {
+		Node<K,E> y = null;
+		while (z.getParent().getColor() == Node.RED) {
 			if (z.getParent() == z.getParent().getParent().getLeft()) {
 				y = z.getParent().getParent().getRight();
-				if (y.getColor() == NodeRBTree.RED) {
-					z.getParent().setColor(NodeRBTree.BLACK);
-					y.setColor(NodeRBTree.BLACK);
-					z.getParent().getParent().setColor(NodeRBTree.RED);
+				if (y.getColor() == Node.RED) {
+					z.getParent().setColor(Node.BLACK);
+					y.setColor(Node.BLACK);
+					z.getParent().getParent().setColor(Node.RED);
 					z = z.getParent().getParent();
 				} else {
 					if (z == z.getParent().getRight()) {
 						z = z.getParent();
 						leftRotate(z);
 					}
-					z.getParent().setColor(NodeRBTree.BLACK);
-					z.getParent().getParent().setColor(NodeRBTree.RED);
+					z.getParent().setColor(Node.BLACK);
+					z.getParent().getParent().setColor(Node.RED);
 					rightRotate(z.getParent().getParent());
 				}
 			} else {
 				y = z.getParent().getParent().getLeft();
-				if (y.getColor() == NodeRBTree.RED) {
-					z.getParent().setColor(NodeRBTree.BLACK);
-					y.setColor(NodeRBTree.BLACK);
-					z.getParent().getParent().setColor(NodeRBTree.RED);
+				if (y.getColor() == Node.RED) {
+					z.getParent().setColor(Node.BLACK);
+					y.setColor(Node.BLACK);
+					z.getParent().getParent().setColor(Node.RED);
 					z = z.getParent().getParent();
 				} else {
 					if (z == z.getParent().getLeft()) {
 						z = z.getParent();
 						rightRotate(z);
 					}
-					z.getParent().setColor(NodeRBTree.BLACK);
-					z.getParent().getParent().setColor(NodeRBTree.RED);
+					z.getParent().setColor(Node.BLACK);
+					z.getParent().getParent().setColor(Node.RED);
 					leftRotate(z.getParent().getParent());
 				}
 			}
 		}
-		root.setColor(NodeRBTree.BLACK);
+		root.setColor(Node.BLACK);
 		node.setParent(null);
 	}
 
-	private void leftRotate(NodeRBTree<K, E> x) {
-		NodeRBTree<K,E> y = x.getRight();
+	private void leftRotate(Node<K, E> x) {
+		Node<K,E> y = x.getRight();
 		x.setRight(y.getLeft());
 		if (y.getLeft() != node) {
 			y.getLeft().setParent(x);
@@ -126,8 +126,8 @@ public class RedBlackTree<K extends Comparable<K>, E> extends ABB<K, E> {
 		x.setParent(y);
 	}
 
-	private void rightRotate(NodeRBTree<K,E> y) {
-		NodeRBTree<K,E> x = y.getLeft();
+	private void rightRotate(Node<K,E> y) {
+		Node<K,E> x = y.getLeft();
 		y.setLeft(x.getRight());
 		if (x.getRight() != node)
 			x.getRight().setParent(y);
@@ -146,14 +146,26 @@ public class RedBlackTree<K extends Comparable<K>, E> extends ABB<K, E> {
 	
 	//return boolean
 	
-	public  Node<K, E> delete(K key) {
-		return super.delete(key);
+	public Node<K,E> delete(K key) {
+		boolean r = false;
+		Node<K,E> dele = super.search(key);
+		Node<K,E> x = null;
+		if(dele != null) {
+			//aqui se asigna la x
+		}
 		
-//		NodeRBTree z;
+		Node<K,E> deleted = super.delete(key);
+		if(dele.getColor() == false) {
+			delete(dele);
+		}
+		nodeCount--;
+		return deleted;
+
+//		Node z;
 //		if (key == null || (z = (search(key, root))) == node)
 //			return false;
-//		NodeRBTree x;
-//		NodeRBTree y = z; // temporary reference y
+//		Node x;
+//		Node y = z; // temporary reference y
 //		boolean y_original_color = y.getColor();
 //
 //		if (z.getLeft() == node) {
@@ -178,73 +190,73 @@ public class RedBlackTree<K extends Comparable<K>, E> extends ABB<K, E> {
 //			y.getLeft().setParent(y);
 //			y.setColor(z.getColor());
 //		}
-//		if (y_original_color == NodeRBTree.BLACK)
+//		if (y_original_color == Node.BLACK)
 //			deleteFix(x);
 //		nodeCount--;
 //		return true;
 		
 	}
 
-	private void delete(NodeRBTree<K, E> x) {
+	private void delete(Node<K, E> x) {
 		
-		while (x != root && x.getColor() == NodeRBTree.BLACK) {
+		while (x != root && x.getColor() == Node.BLACK) {
 			
 			if (x == x.getParent().getLeft()) {
-				NodeRBTree<K, E> w = x.getParent().getRight();
-				if (w.getColor() == NodeRBTree.RED) {
-					w.setColor(NodeRBTree.BLACK);
-					x.getParent().setColor(NodeRBTree.RED);
+				Node<K, E> w = x.getParent().getRight();
+				if (w.getColor() == Node.RED) {
+					w.setColor(Node.BLACK);
+					x.getParent().setColor(Node.RED);
 					leftRotate(x.getParent());
 					w = x.getParent().getRight();
 				}
-				if (w.getLeft().getColor() == NodeRBTree.BLACK && w.getRight().getColor() == NodeRBTree.BLACK) {
-					w.setColor(NodeRBTree.RED);
+				if (w.getLeft().getColor() == Node.BLACK && w.getRight().getColor() == Node.BLACK) {
+					w.setColor(Node.RED);
 					x = x.getParent();
 					continue;
-				} else if (w.getRight().getColor() == NodeRBTree.BLACK) {
-					w.getLeft().setColor(NodeRBTree.BLACK);
-					w.setColor(NodeRBTree.RED);
+				} else if (w.getRight().getColor() == Node.BLACK) {
+					w.getLeft().setColor(Node.BLACK);
+					w.setColor(Node.RED);
 					rightRotate(w);
 					w = x.getParent().getRight();
 				}
-				if (w.getRight().getColor() == NodeRBTree.RED) {
+				if (w.getRight().getColor() == Node.RED) {
 					w.setColor(x.getParent().getColor());
-					x.getParent().setColor(NodeRBTree.BLACK);
-					w.getRight().setColor(NodeRBTree.BLACK);
+					x.getParent().setColor(Node.BLACK);
+					w.getRight().setColor(Node.BLACK);
 					leftRotate(x.getParent());
 					x = root;
 				}
 			} else {
-				NodeRBTree<K, E> w = (x.getParent().getLeft());
-				if (w.getColor() == NodeRBTree.RED) {
-					w.setColor(NodeRBTree.BLACK);
-					x.getParent().setColor(NodeRBTree.RED);
+				Node<K, E> w = (x.getParent().getLeft());
+				if (w.getColor() == Node.RED) {
+					w.setColor(Node.BLACK);
+					x.getParent().setColor(Node.RED);
 					rightRotate(x.getParent());
 					w = (x.getParent()).getLeft();
 				}
-				if (w.getRight().getColor() == NodeRBTree.BLACK && w.getLeft().getColor() == NodeRBTree.BLACK) {
-					w.setColor(NodeRBTree.RED);
+				if (w.getRight().getColor() == Node.BLACK && w.getLeft().getColor() == Node.BLACK) {
+					w.setColor(Node.RED);
 					x = x.getParent();
-					continue;  //PA QUE ES?
-				} else if (w.getLeft().getColor() == NodeRBTree.BLACK) {
-					w.getRight().setColor(NodeRBTree.BLACK);
-					w.setColor(NodeRBTree.RED);
+					continue;  
+				} else if (w.getLeft().getColor() == Node.BLACK) {
+					w.getRight().setColor(Node.BLACK);
+					w.setColor(Node.RED);
 					leftRotate(w);
 					w = (x.getParent().getLeft());
 				}
-				if (w.getLeft().getColor() == NodeRBTree.RED) {
+				if (w.getLeft().getColor() == Node.RED) {
 					w.setColor(x.getParent().getColor());
-					x.getParent().setColor(NodeRBTree.BLACK);
-					w.getLeft().setColor(NodeRBTree.BLACK);
+					x.getParent().setColor(Node.BLACK);
+					w.getLeft().setColor(Node.BLACK);
 					rightRotate(x.getParent());
 					x = root;
 				}
 			}
 		}
-		x.setColor(NodeRBTree.BLACK);
+		x.setColor(Node.BLACK);
 	}
 
-	private NodeRBTree<K, E> successor(NodeRBTree<K, E> root) {
+	private Node<K, E> successor(Node<K, E> root) {
 		if (root == node || root.getLeft() == node)
 			return root;
 		else
@@ -256,7 +268,7 @@ public class RedBlackTree<K extends Comparable<K>, E> extends ABB<K, E> {
 		return height(root);
 	}
 
-	private int height(NodeRBTree<K, E> curr) {
+	private int height(Node<K, E> curr) {
 		
 		if (curr == node) {
 			return 0;
@@ -271,7 +283,7 @@ public class RedBlackTree<K extends Comparable<K>, E> extends ABB<K, E> {
 	
 	
 //
-//	private void transplant(NodeRBTree<K, E> u, NodeRBTree<K, E> v) {
+//	private void transplant(Node<K, E> u, Node<K, E> v) {
 //		if (u.getParent() == node) {
 //			root = v;
 //		} else if (u == u.getParent().getLeft()) {
@@ -281,13 +293,13 @@ public class RedBlackTree<K extends Comparable<K>, E> extends ABB<K, E> {
 //		v.setParent(u.getParent());
 //	}
 //	
-//	private void swapColors(NodeRBTree<K,E> a, NodeRBTree<K,E> b) {
+//	private void swapColors(Node<K,E> a, Node<K,E> b) {
 //		boolean tmpColor = a.getColor();
 //		a.setColor(b.getColor());
 //		b.setColor(tmpColor);
 //	}
 //
-//	private void updateParentChildLink(NodeRBTree<K,E> parent, NodeRBTree<K,E> oldChild, NodeRBTree<K,E> newChild) {
+//	private void updateParentChildLink(Node<K,E> parent, Node<K,E> oldChild, Node<K,E> newChild) {
 //		if (parent != node) {
 //			if (parent.getLeft() == oldChild) {
 //				parent.setLeft(newChild);
@@ -297,13 +309,13 @@ public class RedBlackTree<K extends Comparable<K>, E> extends ABB<K, E> {
 //		}
 //	}
 //
-//	private NodeRBTree<K,E> findMin(NodeRBTree<K,E> node) {
+//	private Node<K,E> findMin(Node<K,E> node) {
 //		while (node.getLeft() != node)
 //			node = node.getLeft();
 //		return node;
 //	}
 //
-//	private NodeRBTree<K,E> findMax(NodeRBTree<K,E> node) {
+//	private Node<K,E> findMax(Node<K,E> node) {
 //		while (node.getRight() != node)
 //			node = node.getRight();
 //		return node;
