@@ -226,7 +226,7 @@ public class Controller {
 		while (line != null) {
 			String[] data = line.split(",");
 			countries[i]  = data[0];
-			percentage[i] = Double.parseDouble(data[2]);
+			percentage[i] = Double.parseDouble(data[1]);
 			i++;
 			line = bw.readLine();
 		}
