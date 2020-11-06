@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import dataStructure.AVL;
 import dataStructure.Node;
@@ -58,22 +59,25 @@ public class Controller {
 		p.setGender(gender);
 	}
 	
-	public Person search2(String name) {
+	public ArrayList<Person> search2(String name) {
 		return search2(names.getRoot(), name);
 	}
 	
-	private Person search2(Node<String, Person> x,String name) {
-		Person p;
-		if (x == null || x.getKey().substring(0, name.length()).compareToIgnoreCase(name) == 0) {
-			p = x.getElement();
-		} else {
-			if (name.compareToIgnoreCase(x.getKey().substring(0, name.length())) > 0) {
-				p = search2(x.getRight(), name);
+	private ArrayList<Person> search2(Node<String, Person> x,String name) {
+		ArrayList<Person> ps = new ArrayList<>();
+		if (ps.size() < 100) {
+			if (x == null || x.getKey().substring(0, name.length()).compareToIgnoreCase(name) == 0) {
+				ps.add(x.getElement());
 			} else {
-				p = search2(x.getLeft(), name);
+				if (name.compareToIgnoreCase(x.getKey().substring(0, name.length())) > 0) {
+					search2(x.getRight(), name);
+				} else {
+					search2(x.getLeft(), name);
+				}
 			}
 		}
-		return p;
+		
+		return ps;
 	}
 	
 	public void updatePerson(Person p, int year, int month, int day) {
