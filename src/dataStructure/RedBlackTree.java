@@ -174,8 +174,6 @@ public class RedBlackTree<K extends Comparable<K>, E> extends ABB<K, E> implemen
 			return false;
 		}
 
-		z = null;
-
 		Node<K, E> toDelete;
 		Node<K, E> y = z;
 		boolean colorSave = y.getColor();
