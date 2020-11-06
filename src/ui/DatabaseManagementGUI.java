@@ -187,20 +187,40 @@ public class DatabaseManagementGUI {
     
     @FXML
     void predictText(KeyEvent  event) {
-    	System.out.println("sdqwdqdwq");
     	String prefix = searchField.getText();
     	ArrayList<Person> coincidents = new ArrayList<Person>();
     	
     	if (searchByCode) {
 			coincidents.add(control.searchPerson(prefix, 3));
+			for (int i = 0; i < coincidents.size(); i++) {
+				if (coincidents.get(i) != null) {
+					predictList.getItems().add(coincidents.get(i).getCod());
+				}
+			}
 		}else if (searchByFullname) {
 			coincidents.add(control.searchPerson(prefix, 2));
+			for (int i = 0; i < coincidents.size(); i++) {
+				if (coincidents.get(i) != null) {
+					predictList.getItems().add(coincidents.get(i).getName() + " " + coincidents.get(i).getLastName());
+				}
+			}
 		}else if (searchByName) {
 			coincidents.add(control.searchPerson(prefix, 0));
+			for (int i = 0; i < coincidents.size(); i++) {
+				if (coincidents.get(i) != null) {
+					predictList.getItems().add(coincidents.get(i).getName());
+				}
+			}
 		}else if (searchBySurname) {
 			coincidents.add(control.searchPerson(prefix, 1));
+			for (int i = 0; i < coincidents.size(); i++) {
+				if (coincidents.get(i) != null) {
+					predictList.getItems().add(coincidents.get(i).getLastName());
+				}
+			}
 		}
     	
+    	predictList.setVisible(true);
     	loadTable(coincidents);
     }
     
