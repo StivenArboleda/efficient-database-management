@@ -219,7 +219,7 @@ public class DatabaseManagementGUI {
 				}
 			}
 		}else if (searchByName) {
-			coincidents.add(control.searchPerson(prefix, 0));
+			coincidents.addAll(control.search2(prefix));
 			for (int i = 0; i < coincidents.size(); i++) {
 				if (coincidents.get(i) != null) {
 //					predictList.getItems().remove(coincidents.get(i).getName());
