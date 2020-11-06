@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,8 +30,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Controller;
 import model.Person;
+import threads.ThreadProgress;
 
 public class DatabaseManagementGUI {
+	
 	private Controller control;
 	private boolean searchByName;
 	private boolean searchBySurname;
@@ -82,7 +85,9 @@ public class DatabaseManagementGUI {
     private TableColumn<Person, String> colNationality;
     @FXML
     private TableColumn<Person, Button> colEdit;
-
+    
+    //atributo para el progress
+    int generator = 0; 
 
 	public DatabaseManagementGUI() {
 		this.control = new Controller();
@@ -206,7 +211,29 @@ public class DatabaseManagementGUI {
     
     @FXML
     void generatePeople(ActionEvent event) {
-
+    	try {
+    		generator = Integer.parseInt(quantityToGenerate.getText());
+    		if(generator < 1) {
+    			Alert succesfullyAddedMsg = new Alert(AlertType.WARNING);
+				succesfullyAddedMsg.setTitle("NUMERO INVALIDO");
+				succesfullyAddedMsg.setHeaderText("EL NÚMERO INGRESADO NO ES VÁLIDO");
+				succesfullyAddedMsg.setContentText("POR FAVOR INGRESE UN NÚMERO MAYOR A 1.");
+				succesfullyAddedMsg.showAndWait();
+    		}else {
+    			ArrayList<Long> numbers = numbers(generator);
+    			ThreadProgress tp = new ThreadProgress(this, numbers);
+    			tp.setDaemon(true);
+    			tp.start();
+    		}
+    	
+    	}catch(NumberFormatException e) {
+    		Alert succesfullyAddedMsg = new Alert(AlertType.WARNING);
+			succesfullyAddedMsg.setTitle("NUMERO INVALIDO");
+			succesfullyAddedMsg.setHeaderText("EL NÚMERO INGRESADO NO ES VÁLIDO");
+			succesfullyAddedMsg.setContentText("POR FAVOR INGRESE UN NÚMERO VALIDO.");
+			succesfullyAddedMsg.showAndWait();
+    	}
+  
     }
     
     @FXML
@@ -305,4 +332,26 @@ public class DatabaseManagementGUI {
 		colNationality.setCellValueFactory(new PropertyValueFactory<Person, String>("nationality"));
 		colEdit.setCellValueFactory(new PropertyValueFactory<Person, Button>("update"));
 	}
+    
+    public void progressBar(int i) {
+    	Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				progressOfGeneration.setProgress(i);
+			}
+		});
+    }
+	
+	public ArrayList<Long> numbers(long data) {
+		ArrayList<Long> numbe = new ArrayList<>();
+		for (int i = 0; i < data; i++) {
+			long num = (long) ((Math.random() * Long.MAX_VALUE) + Long.MIN_VALUE);
+			numbe.add(num);
+		}
+		return numbe;
+	}
+
+    	
 }
