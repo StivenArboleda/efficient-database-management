@@ -14,7 +14,7 @@ class ControllerTest {
 		c.addPerson("Sebastián", "Barrera", 1, 1998, 11, 19, 1.74, "Colombia", "img1.jpg", null);
 		c.addPerson("Alejandro", "Garcia", 1, 2000, 2, 5, 1.75, "Colombia", "img2.jpg",null);
 		c.addPerson("Jon", "Z", 1, 2001, 7, 5, 1.70, "Colombia", "img3.jpg", null);
-		c.addPerson("Valentina", "Caicedo",2, 1999, 5, 30, 1.68, "Colombia", "img4.jpg", null);
+		c.addPerson("Valentina", "Caicedo",0, 1999, 5, 30, 1.68, "Colombia", "img4.jpg", null);
 		c.addPerson("Esteban", "Yusunguaira", 1, 2001, 9, 27, 1.75, "Colombia", "img5.jpg", null);
 	}
 	

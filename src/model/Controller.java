@@ -137,8 +137,8 @@ public class Controller {
 	 * 
 	 */
 	
-	public ArrayList<Person> search2(String name) {
-		return search2(names.getRoot(), name);
+	public ArrayList<Person> search2(AVL<String, Person> avl, String name) {
+		return search2(avl.getRoot(), name);
 	}
 	
 	private ArrayList<Person> search2(Node<String, Person> x,String name) {
@@ -160,7 +160,6 @@ public class Controller {
 				}
 			}
 		}
-		
 		return ps;
 	}
 	
