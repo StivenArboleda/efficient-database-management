@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import dataStructure.AVL;
+import dataStructure.Node;
 import javafx.scene.control.Button;
 
 public class Controller {
@@ -55,6 +57,27 @@ public class Controller {
 	
 	public void updatePerson(Person p, int gender) {
 		p.setGender(gender);
+	}
+	
+	public ArrayList<Person> search2(String name) {
+		return search2(names.getRoot(), name);
+	}
+	
+	private ArrayList<Person> search2(Node<String, Person> x,String name) {
+		ArrayList<Person> ps = new ArrayList<>();
+		if (ps.size() < 100) {
+			if (x == null || x.getKey().substring(0, name.length()).compareToIgnoreCase(name) == 0) {
+				ps.add(x.getElement());
+			} else {
+				if (name.compareToIgnoreCase(x.getKey().substring(0, name.length())) > 0) {
+					search2(x.getRight(), name);
+				} else {
+					search2(x.getLeft(), name);
+				}
+			}
+		}
+		
+		return ps;
 	}
 	
 	public void updatePerson(Person p, int year, int month, int day) {
