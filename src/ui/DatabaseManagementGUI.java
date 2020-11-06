@@ -87,7 +87,7 @@ public class DatabaseManagementGUI {
     private TableColumn<Person, Button> colEdit;
     
     //atributo para el progress
-    int generator = 0; 
+    private int generator; 
 
 	public DatabaseManagementGUI() {
 		this.control = new Controller();
@@ -192,19 +192,41 @@ public class DatabaseManagementGUI {
     
     @FXML
     void predictText(KeyEvent  event) {
-    	System.out.println("sdqwdqdwq");
     	String prefix = searchField.getText();
     	ArrayList<Person> coincidents = new ArrayList<Person>();
     	
     	if (searchByCode) {
 			coincidents.add(control.searchPerson(prefix, 3));
+			for (int i = 0; i < coincidents.size(); i++) {
+				if (coincidents.get(i) != null) {
+					predictList.getItems().add(coincidents.get(i).getCod());
+				}
+			}
 		}else if (searchByFullname) {
 			coincidents.add(control.searchPerson(prefix, 2));
+			for (int i = 0; i < coincidents.size(); i++) {
+				if (coincidents.get(i) != null) {
+					predictList.getItems().add(coincidents.get(i).getName() + " " + coincidents.get(i).getLastName());
+				}
+			}
 		}else if (searchByName) {
 			coincidents.add(control.searchPerson(prefix, 0));
+			for (int i = 0; i < coincidents.size(); i++) {
+				if (coincidents.get(i) != null) {
+					predictList.getItems().add(coincidents.get(i).getName());
+				}
+			}
 		}else if (searchBySurname) {
 			coincidents.add(control.searchPerson(prefix, 1));
+			for (int i = 0; i < coincidents.size(); i++) {
+				if (coincidents.get(i) != null) {
+					predictList.getItems().add(coincidents.get(i).getLastName());
+				}
+			}
 		}
+    	
+    	predictList.setVisible(true);
+    	
     	
     	loadTable(coincidents);
     }
@@ -222,6 +244,24 @@ public class DatabaseManagementGUI {
     		}else {
     			ArrayList<Long> numbers = numbers(generator);
     			ThreadProgress tp = new ThreadProgress(this, numbers);
+    			Button update = new Button("Update");
+            	update.setOnAction(e -> {
+        			try {
+        				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FindForm.fxml"));
+        				fxmlLoader.setController(this);
+        				Parent updatePersonPane = fxmlLoader.load();
+        				
+        				Scene scene = new Scene(updatePersonPane);
+        				Stage stage = new Stage(); 
+        				stage.setScene(scene);
+        				stage.setTitle("Efficent Database Management");
+        				stage.show();
+        			} catch (IOException e1) {
+        				// TODO Auto-generated catch block
+        				e1.printStackTrace();
+        			}
+        		});
+    			control.addPerson("sisaspai.jpg", update);
     			tp.setDaemon(true);
     			tp.start();
     		}
