@@ -87,7 +87,7 @@ public class DatabaseManagementGUI {
     private TableColumn<Person, Button> colEdit;
     
     //atributo para el progress
-    int generator = 0; 
+    private int generator; 
 
 	public DatabaseManagementGUI() {
 		this.control = new Controller();
@@ -226,6 +226,8 @@ public class DatabaseManagementGUI {
 		}
     	
     	predictList.setVisible(true);
+    	
+    	
     	loadTable(coincidents);
     }
     
@@ -242,6 +244,24 @@ public class DatabaseManagementGUI {
     		}else {
     			ArrayList<Long> numbers = numbers(generator);
     			ThreadProgress tp = new ThreadProgress(this, numbers);
+    			Button update = new Button("Update");
+            	update.setOnAction(e -> {
+        			try {
+        				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FindForm.fxml"));
+        				fxmlLoader.setController(this);
+        				Parent updatePersonPane = fxmlLoader.load();
+        				
+        				Scene scene = new Scene(updatePersonPane);
+        				Stage stage = new Stage(); 
+        				stage.setScene(scene);
+        				stage.setTitle("Efficent Database Management");
+        				stage.show();
+        			} catch (IOException e1) {
+        				// TODO Auto-generated catch block
+        				e1.printStackTrace();
+        			}
+        		});
+    			control.addPerson("sisaspai.jpg", update);
     			tp.setDaemon(true);
     			tp.start();
     		}
