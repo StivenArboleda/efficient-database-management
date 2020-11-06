@@ -58,7 +58,11 @@ public class Controller {
 		p.setGender(gender);
 	}
 	
-	public Person search2(Node<String, Person> x,String name) {
+	public Person search2(String name) {
+		return search2(names.getRoot(), name);
+	}
+	
+	private Person search2(Node<String, Person> x,String name) {
 		Person p;
 		if (x == null || x.getKey().substring(0, name.length()).compareToIgnoreCase(name) == 0) {
 			p = x.getElement();
