@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import dataStructure.AVL;
+import dataStructure.Node;
 import javafx.scene.control.Button;
 
 public class Controller {
@@ -55,6 +56,20 @@ public class Controller {
 	
 	public void updatePerson(Person p, int gender) {
 		p.setGender(gender);
+	}
+	
+	public Person search2(Node<String, Person> x,String name) {
+		Person p;
+		if (x == null || x.getKey().substring(0, name.length()).compareToIgnoreCase(name) == 0) {
+			p = x.getElement();
+		} else {
+			if (name.compareToIgnoreCase(x.getKey().substring(0, name.length())) > 0) {
+				p = search2(x.getRight(), name);
+			} else {
+				p = search2(x.getLeft(), name);
+			}
+		}
+		return p;
 	}
 	
 	public void updatePerson(Person p, int year, int month, int day) {
