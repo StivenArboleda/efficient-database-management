@@ -194,8 +194,16 @@ public class DatabaseManagementGUI {
     void predictText(KeyEvent  event) {
     	String prefix = searchField.getText();
     	ArrayList<Person> coincidents = new ArrayList<Person>();
+    	predictList.setVisible(false);
     	
     	if (searchByCode) {
+//    		for (int i = 0; i < coincidents.size(); i++) {
+//				if (coincidents.get(i) != null) {
+//					coincidents.remove(coincidents.get(i));
+//					predictList.getItems().remove(coincidents.get(i));
+//					
+//				}
+//    		}
 			coincidents.add(control.searchPerson(prefix, 3));
 			for (int i = 0; i < coincidents.size(); i++) {
 				if (coincidents.get(i) != null) {
@@ -206,6 +214,7 @@ public class DatabaseManagementGUI {
 			coincidents.add(control.searchPerson(prefix, 2));
 			for (int i = 0; i < coincidents.size(); i++) {
 				if (coincidents.get(i) != null) {
+//					predictList.getItems().remove(coincidents.get(i).getName() + " " + coincidents.get(i).getLastName());
 					predictList.getItems().add(coincidents.get(i).getName() + " " + coincidents.get(i).getLastName());
 				}
 			}
@@ -213,6 +222,7 @@ public class DatabaseManagementGUI {
 			coincidents.add(control.searchPerson(prefix, 0));
 			for (int i = 0; i < coincidents.size(); i++) {
 				if (coincidents.get(i) != null) {
+//					predictList.getItems().remove(coincidents.get(i).getName());
 					predictList.getItems().add(coincidents.get(i).getName());
 				}
 			}
@@ -220,13 +230,17 @@ public class DatabaseManagementGUI {
 			coincidents.add(control.searchPerson(prefix, 1));
 			for (int i = 0; i < coincidents.size(); i++) {
 				if (coincidents.get(i) != null) {
+//					predictList.getItems().remove(coincidents.get(i).getLastName());
 					predictList.getItems().add(coincidents.get(i).getLastName());
 				}
 			}
 		}
     	
     	predictList.setVisible(true);
-    	
+    	predictList.setOnMouseClicked(e -> {
+//    		predictList.getpredictList.getEditingIndex()
+    		System.out.println("wdfwedfwed");
+    	});
     	
     	loadTable(coincidents);
     }
