@@ -61,12 +61,11 @@ public class Controller {
 		p.setGender(gender);
 	}
 	
-<<<<<<< HEAD
 	public ArrayList<Person> search2(String name) {
-		return search2(names.getRoot(), name);
+		return search(names.getRoot(), name);
 	}
 	
-	private ArrayList<Person> search2(Node<String, Person> x,String name) {
+	private ArrayList<Person> search(Node<String, Person> x,String name) {
 		ArrayList<Person> ps = new ArrayList<>();
 		if (ps.size() < 100) {
 			if (x == null || x.getKey().substring(0, name.length()).compareToIgnoreCase(name) == 0) {
@@ -88,9 +87,7 @@ public class Controller {
 		
 		return ps;
 	}
-	
-=======
->>>>>>> cbaaf5dfc09e126cdf39c0b6a33a9ecedaeb8582
+
 	public void updatePerson(Person p, int year, int month, int day) {
 		Date date = new Date(day, month, year);
 		p.setBornDate(date);
