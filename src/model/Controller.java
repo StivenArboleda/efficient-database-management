@@ -61,6 +61,7 @@ public class Controller {
 		p.setGender(gender);
 	}
 	
+<<<<<<< HEAD
 	public ArrayList<Person> search2(String name) {
 		return search2(names.getRoot(), name);
 	}
@@ -88,6 +89,8 @@ public class Controller {
 		return ps;
 	}
 	
+=======
+>>>>>>> cbaaf5dfc09e126cdf39c0b6a33a9ecedaeb8582
 	public void updatePerson(Person p, int year, int month, int day) {
 		Date date = new Date(day, month, year);
 		p.setBornDate(date);
@@ -154,6 +157,54 @@ public class Controller {
 		}
 		return p;
 	}
+	
+	/**
+	 * 
+	 * ATENCIÓN MALAS PRACTICAS ACONTINUACIÓN
+	 * 
+	 * CONTINUE CON PRECAUCIÓN
+	 * 
+	 * D: D: D: D: D: D: D: D: D: D: D:
+	 * 
+	 * 
+	 */
+	
+	public ArrayList<Person> search2(AVL<String, Person> avl, String name) {
+		return search2(avl.getRoot(), name);
+	}
+	
+	private ArrayList<Person> search2(Node<String, Person> x,String name) {
+		ArrayList<Person> ps = new ArrayList<>();
+		if (ps.size() < 100) {
+			if (x == null || x.getKey().substring(0, name.length()).compareToIgnoreCase(name) == 0) {
+				ps.add(x.getElement());
+				if (x.getLeft() != null) {
+					search2(x.getLeft(), name);
+				}
+				if (x.getRight() != null) {
+					search2(x.getRight(), name);
+				}
+			} else {
+				if (name.compareToIgnoreCase(x.getKey().substring(0, name.length())) > 0) {
+					search2(x.getRight(), name);
+				} else {
+					search2(x.getLeft(), name);
+				}
+			}
+		}
+		return ps;
+	}
+	
+	/**
+	 * 
+	 * FIN DE LAS MALAS PRACTICAS
+	 * 
+	 * PUEDE CONTINUAR SIN MIEDO
+	 * 
+	 * :D :D :D :D :D :D :D :D :D
+	 * 
+	 * 
+	 */
 	
 	public Date createDate(int year, int month, int day) {
 		return new Date(day, month, year);

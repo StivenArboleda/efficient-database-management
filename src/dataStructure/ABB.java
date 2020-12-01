@@ -133,9 +133,9 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 
 	@Override
 	public Node<K, E> maximun(Node<K, E> x) {
-		Node<K, E> m = null;
-		while (x.getRight() != null) {
-			m = x.getRight();
+		Node<K, E> m = x;
+		while (m.getRight() != null) {
+			m = m.getRight();
 		}
 		return m;
 	}
@@ -147,9 +147,9 @@ public class ABB<K extends Comparable<K>, E> implements IABB<K, E>, Serializable
 
 	@Override
 	public Node<K, E> minimun(Node<K, E> x) {
-		Node<K, E> m = null;
-		while (x.getLeft() != null) {
-			m = x.getLeft();
+		Node<K, E> m = x;
+		while (m.getLeft() != null) {
+			m = m.getLeft();
 		}
 		return m;
 	}

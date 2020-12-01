@@ -17,7 +17,7 @@ public class ThreadProgress extends Thread{
 		for(int i=0; i<=1000;i++) {
 			gui.progressBar(i);
 		}try {
-			sleep(100);
+			sleep(1000);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -220,6 +220,7 @@ public class DatabaseManagementGUI {
 			}
 		}else if (searchByName) {
 			coincidents = control.search2(prefix);
+
 			for (int i = 0; i < coincidents.size(); i++) {
 				if (coincidents.get(i) != null) {
 //					predictList.getItems().remove(coincidents.get(i).getName());
@@ -252,8 +253,8 @@ public class DatabaseManagementGUI {
     		if(generator < 1) {
     			Alert succesfullyAddedMsg = new Alert(AlertType.WARNING);
 				succesfullyAddedMsg.setTitle("NUMERO INVALIDO");
-				succesfullyAddedMsg.setHeaderText("EL NÚMERO INGRESADO NO ES VÁLIDO");
-				succesfullyAddedMsg.setContentText("POR FAVOR INGRESE UN NÚMERO MAYOR A 1.");
+				succesfullyAddedMsg.setHeaderText("EL Nï¿½MERO INGRESADO NO ES Vï¿½LIDO");
+				succesfullyAddedMsg.setContentText("POR FAVOR INGRESE UN Nï¿½MERO MAYOR A 1.");
 				succesfullyAddedMsg.showAndWait();
     		}else {
     			ArrayList<Long> numbers = numbers(generator);
@@ -287,8 +288,8 @@ public class DatabaseManagementGUI {
     	}catch(NumberFormatException e) {
     		Alert succesfullyAddedMsg = new Alert(AlertType.WARNING);
 			succesfullyAddedMsg.setTitle("NUMERO INVALIDO");
-			succesfullyAddedMsg.setHeaderText("EL NÚMERO INGRESADO NO ES VÁLIDO");
-			succesfullyAddedMsg.setContentText("POR FAVOR INGRESE UN NÚMERO VALIDO.");
+			succesfullyAddedMsg.setHeaderText("EL Nï¿½MERO INGRESADO NO ES Vï¿½LIDO");
+			succesfullyAddedMsg.setContentText("POR FAVOR INGRESE UN Nï¿½MERO VALIDO.");
 			succesfullyAddedMsg.showAndWait();
     	}
   
