@@ -1,8 +1,14 @@
 package dataStructure;
 
-public class Node<K extends Comparable<K>, E> {
+import java.io.Serializable;
+
+public class Node<K extends Comparable<K>, E> implements Serializable{
     
-    private E element;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private E element;
     private K key;
     private  Node<K, E> left;
     private  Node<K, E> right;

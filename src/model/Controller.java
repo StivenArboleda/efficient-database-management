@@ -2,8 +2,10 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import dataStructure.AVL;
@@ -68,6 +70,12 @@ public class Controller {
 		if (ps.size() < 100) {
 			if (x == null || x.getKey().substring(0, name.length()).compareToIgnoreCase(name) == 0) {
 				ps.add(x.getElement());
+				if (x.getLeft() != null) {
+					search2(x.getLeft(), name);
+				}
+				if (x.getRight() != null) {
+					search2(x.getRight(), name);
+				}
 			} else {
 				if (name.compareToIgnoreCase(x.getKey().substring(0, name.length())) > 0) {
 					search2(x.getRight(), name);
@@ -192,7 +200,7 @@ public class Controller {
 		name[1] = aLastNames[la];
 		return name;
 	}
-
+	
 	private double generateHeight() {
 		return Math.random() * (2 - 1.5) + 1.5;
 	}
@@ -242,48 +250,55 @@ public class Controller {
 	}
 	
 	public void loadFromFilesCountries() throws IOException {
-		FileReader br = new FileReader(new File(COUNTRIES));
-		BufferedReader bw = new BufferedReader(br);
+		File fl = new File(COUNTRIES);
+		FileReader fr = new FileReader(fl);
+		BufferedReader bw = new BufferedReader(fr);
 		String line = bw.readLine();
 		int i = 0;
 		while (line != null) {
-			String[] data = line.split(",");
+			String[] data = line.split(";");
 			countries[i]  = data[0];
 			percentage[i] = Double.parseDouble(data[1]);
 			i++;
 			line = bw.readLine();
 		}
-		br.close();
+		fr.close();
 		bw.close();
 	}
 	
 	public void loadFromFilesNames() throws IOException {
-		FileReader br = new FileReader(new File(NAMES));
-		BufferedReader bw = new BufferedReader(br);
-		String line = bw.readLine();
+		File fl = new File(NAMES);
+		FileReader fr = new FileReader(fl);
+		BufferedReader br = new BufferedReader(fr);
+		String msg = br.readLine();
 		int i = 0;
-		while (line != null) {
-			String[] data = line.split(",");
+		
+		while(msg != null) {
+			String[] data = msg.split(";");
 			aNames[i]  = data[0];
+			msg = br.readLine();
+			
 			i++;
-			line = bw.readLine();
 		}
+		
 		br.close();
-		bw.close();
+		fr.close();
 	}
 	
 	public void loadFromFilesLastNames() throws IOException {
-		FileReader br = new FileReader(new File(LASTNAMES));
-		BufferedReader bw = new BufferedReader(br);
+		File fl = new File(LASTNAMES);
+		FileReader fr = new FileReader(fl);
+		BufferedReader bw = new BufferedReader(fr);
 		String line = bw.readLine();
 		int i = 0;
+		
 		while (line != null) {
-			String[] data = line.split(",");
+			String[] data = line.split(";");
 			aLastNames[i]  = data[0];
 			i++;
 			line = bw.readLine();
 		}
-		br.close();
+		fr.close();
 		bw.close();
 	}
 
@@ -412,5 +427,38 @@ public class Controller {
 	public void setaLastNames(String[] aLastNames) {
 		this.aLastNames = aLastNames;
 	}
+
+	public void serializeNames() throws IOException {
+		FileOutputStream fos = new FileOutputStream("data/PersistenceNames.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		
+		oos.writeObject(names);
+		oos.close();
+	}
+
+	public void serializeLastnames()throws IOException {
+		FileOutputStream fos = new FileOutputStream("data/PersistenceLastnames.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		
+		oos.writeObject(lastNames);
+		oos.close();
+	}
+
+	public void serializeCompleteNames() throws IOException {
+		FileOutputStream fos = new FileOutputStream("data/PersistenceCompletenames.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		
+		oos.writeObject(completeNames);
+		oos.close();
+	}
+
+	public void serializeIds() throws IOException {
+		FileOutputStream fos = new FileOutputStream("data/PersistenceIds.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		
+		oos.writeObject(cods);
+		oos.close();
+	}
+
 	
 }

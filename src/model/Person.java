@@ -1,9 +1,15 @@
 package model;
 
+import java.io.Serializable;
+
 import javafx.scene.control.Button;
 
-public class Person {
+public class Person implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public final static int FEMALE = 0;
 	public final static int MALE = 1;
 	

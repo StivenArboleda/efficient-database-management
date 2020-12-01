@@ -219,7 +219,7 @@ public class DatabaseManagementGUI {
 				}
 			}
 		}else if (searchByName) {
-			coincidents.addAll(control.search2(prefix));
+			coincidents = control.search2(prefix);
 			for (int i = 0; i < coincidents.size(); i++) {
 				if (coincidents.get(i) != null) {
 //					predictList.getItems().remove(coincidents.get(i).getName());
@@ -246,7 +246,7 @@ public class DatabaseManagementGUI {
     }
     
     @FXML
-    void generatePeople(ActionEvent event) {
+    void generatePeople(ActionEvent event) throws IOException {
     	try {
     		generator = Integer.parseInt(quantityToGenerate.getText());
     		if(generator < 1) {
@@ -278,6 +278,10 @@ public class DatabaseManagementGUI {
     			control.addPerson("sisaspai.jpg", update);
     			tp.setDaemon(true);
     			tp.start();
+    			control.serializeNames();
+    			control.serializeLastnames();
+    			control.serializeCompleteNames();
+    			control.serializeIds();
     		}
     	
     	}catch(NumberFormatException e) {
